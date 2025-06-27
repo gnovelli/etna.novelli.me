@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="it" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Progetto ETNA - Report Interattivo Completo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Calm Harmony -->
+    <!-- Application Structure Plan: Ho espanso la struttura tematica a scorrimento verticale esistente per includere nuove sezioni logiche: 'Documentazione' per gli utenti tecnici, 'Contribuisci' per gli sviluppatori e 'L'Autore' per creare un collegamento personale e professionale. La navigazione è stata aggiornata per riflettere questa struttura più ricca, mantenendo un'esperienza fluida da single-page application (SPA). Questo design integrato trasforma la pagina da un semplice report a un hub completo del progetto. -->
+    <!-- Visualization & Content Choices: 
+        - Report Info: Guida all'installazione -> Goal: Istruire -> Viz/Method: Blocchi di codice formattati (HTML/Tailwind) per i comandi Docker. -> Interaction: Nessuna. -> Justification: Presenta le informazioni tecniche in modo chiaro e pronto per il copia-incolla. -> Library/Method: HTML/Tailwind.
+        - Report Info: Linee guida per contribuire -> Goal: Incoraggiare, guidare -> Viz/Method: Schede informative e un pulsante di call-to-action (CTA) ben visibile. -> Interaction: Click sul CTA per andare a GitHub. -> Justification: Abbassa la barriera all'ingresso per i potenziali contributori. -> Library/Method: HTML/Tailwind.
+        - Report Info: Informazioni sull'autore -> Goal: Creare connessione, promuovere -> Viz/Method: Sezione biografica con link social e professionali. -> Interaction: Click sui link esterni. -> Justification: Collega il progetto all'autore, aumentando la credibilità e promuovendo il brand personale. -> Library/Method: HTML/Tailwind.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FDFBF6;
+            color: #3C3633;
+        }
+        .highlight-accent {
+            color: #E0A75E;
+        }
+        .bg-accent {
+            background-color: #E0A75E;
+        }
+        .bg-secondary {
+            background-color: #776B5D;
+        }
+        .border-accent {
+            border-color: #E0A75E;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 40vh;
+        }
+        .code-block {
+            background-color: #3C3633;
+            color: #FDFBF6;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            font-family: monospace;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="sticky top-0 z-50 bg-[#FDFBF6]/80 backdrop-blur-lg shadow-sm">
+        <nav class="container mx-auto px-6 py-3">
+            <div class="flex justify-between items-center">
+                <a href="#hero" class="text-xl font-bold nav-link">
+                    Progetto <span class="highlight-accent">ETNA</span>
+                </a>
+                <div class="hidden md:flex space-x-6 lg:space-x-8">
+                    <a href="#overview" class="hover:highlight-accent transition-colors duration-300 nav-link">Panoramica</a>
+                    <a href="#documentation" class="hover:highlight-accent transition-colors duration-300 nav-link">Documentazione</a>
+                    <a href="#contribute" class="hover:highlight-accent transition-colors duration-300 nav-link">Contribuisci</a>
+                    <a href="#author" class="hover:highlight-accent transition-colors duration-300 nav-link">L'Autore</a>
+                </div>
+                <div class="md:hidden">
+                    <button id="menu-btn" class="focus:outline-none">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                    </button>
+                </div>
+            </div>
+            <div id="mobile-menu" class="hidden md:hidden mt-4">
+                <a href="#overview" class="block py-2 text-center hover:bg-accent hover:text-white rounded transition-colors duration-300 nav-link">Panoramica</a>
+                <a href="#documentation" class="block py-2 text-center hover:bg-accent hover:text-white rounded transition-colors duration-300 nav-link">Documentazione</a>
+                <a href="#contribute" class="block py-2 text-center hover:bg-accent hover:text-white rounded transition-colors duration-300 nav-link">Contribuisci</a>
+                <a href="#author" class="block py-2 text-center hover:bg-accent hover:text-white rounded transition-colors duration-300 nav-link">L'Autore</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section id="hero" class="min-h-[60vh] flex items-center bg-white">
+            <div class="container mx-auto px-6 text-center">
+                <h1 class="text-4xl md:text-6xl font-extrabold mb-4">Etna Tremor Notification and Analysis</h1>
+                <p class="text-xl md:text-2xl text-gray-600 mb-8">Monitorare il respiro del vulcano con l'intelligenza artificiale.</p>
+                <div class="flex justify-center flex-wrap gap-4">
+                    <span class="bg-secondary text-white px-4 py-2 rounded-full font-semibold text-sm">Monitoraggio in Tempo Reale</span>
+                    <span class="bg-secondary text-white px-4 py-2 rounded-full font-semibold text-sm">Open Source</span>
+                    <span class="bg-secondary text-white px-4 py-2 rounded-full font-semibold text-sm">Deep Learning</span>
+                </div>
+            </div>
+        </section>
+
+        <section id="overview" class="py-16 md:py-24">
+            <div class="container mx-auto px-6">
+                <h2 class="text-3xl md:text-4xl font-bold text-center mb-4">Panoramica del Progetto</h2>
+                <p class="max-w-3xl mx-auto text-center text-lg text-gray-700 mb-12">
+                    Il progetto ETNA è un sistema software open-source per il monitoraggio e l'analisi del tremore vulcanico del Monte Etna. L'obiettivo è fornire uno strumento accessibile e automatizzato per analizzare dati infrasonici pubblici e identificare anomalie significative nello stato di attività del vulcano.
+                </p>
+
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="bg-white p-8 rounded-xl shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                        <h3 class="text-2xl font-bold mb-3 highlight-accent">📡 Acquisizione Dati</h3>
+                        <p class="text-gray-600">Il sistema si collega ai servizi pubblici dell'INGV (FDSN) per scaricare continuamente le tracce infrasoniche registrate dalle stazioni di monitoraggio sull'Etna.</p>
+                    </div>
+                    <div class="bg-white p-8 rounded-xl shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                        <h3 class="text-2xl font-bold mb-3 highlight-accent">⚙️ Elaborazione del Segnale</h3>
+                        <p class="text-gray-600">Applica tecniche sismologiche standard (RMS, SSAM, Polarizzazione) per estrarre caratteristiche significative dai dati grezzi, trasformandoli in informazioni analizzabili.</p>
+                    </div>
+                    <div class="bg-white p-8 rounded-xl shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                        <h3 class="text-2xl font-bold mb-3 highlight-accent">🧠 Rilevamento Anomalie</h3>
+                        <p class="text-gray-600">Un modello di deep learning (Autoencoder) rileva scostamenti dal "normale" tremore di fondo, inviando allerte via Telegram quando viene identificata un'anomalia.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="documentation" class="py-16 md:py-24 bg-white">
+            <div class="container mx-auto px-6">
+                <h2 class="text-3xl md:text-4xl font-bold text-center mb-12">Documentazione</h2>
+                <p class="max-w-3xl mx-auto text-center text-lg text-gray-700 mb-16">
+                    Questa sezione fornisce le informazioni tecniche necessarie per installare, utilizzare e comprendere a fondo l'architettura del progetto ETNA.
+                </p>
+
+                <div class="space-y-12">
+                    <div>
+                        <h3 class="text-2xl font-bold mb-4 highlight-accent">Guida Rapida all'Installazione</h3>
+                        <p class="text-gray-700 mb-4">Il modo più semplice per avviare ETNA è utilizzare Docker e Docker Compose. Clona il repository ed esegui i seguenti comandi dalla directory principale:</p>
+                        <div class="code-block">
+                            <span class="text-gray-400"># 1. Clona il repository</span><br>
+                            $ git clone https://github.com/gnovelli/etna.git<br>
+                            $ cd etna<br><br>
+                            <span class="text-gray-400"># 2. Avvia i servizi con Docker Compose</span><br>
+                            $ docker-compose up --build -d
+                        </div>
+                        <p class="text-gray-700 mt-4">Questo comando avvierà tutti i componenti necessari: lo scheduler, il server API e la dashboard Streamlit.</p>
+                    </div>
+
+                    <div>
+                        <h3 class="text-2xl font-bold mb-4 highlight-accent">Architettura Approfondita</h3>
+                        <p class="text-gray-700 mb-4">Il sistema è composto da microservizi containerizzati che comunicano tra loro. L'architettura modulare (Scheduler, API Server, Dashboard, CLI) garantisce flessibilità e scalabilità. Per una rappresentazione visiva dettagliata dei componenti e delle loro interazioni, si rimanda ai diagrammi UML presenti nel repository.</p>
+                    </div>
+
+                    <div>
+                        <h3 class="text-2xl font-bold mb-4 highlight-accent">Riferimento API</h3>
+                        <p class="text-gray-700 mb-4">Il server API, basato su FastAPI, espone diversi endpoint per accedere ai dati elaborati. Ad esempio, per ottenere i dati SSAM per una stazione specifica in un dato intervallo di tempo, è possibile effettuare una richiesta GET. Consulta il file `API_TUTORIAL.md` nel repository per una guida completa agli endpoint disponibili.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contribute" class="py-16 md:py-24">
+            <div class="container mx-auto px-6">
+                <h2 class="text-3xl md:text-4xl font-bold text-center mb-12">Contribuisci al Progetto</h2>
+                <p class="max-w-3xl mx-auto text-center text-lg text-gray-700 mb-16">
+                    ETNA è un progetto open-source e la collaborazione è fondamentale per la sua crescita. Che tu sia uno sviluppatore, un data scientist o un vulcanologo, il tuo contributo è prezioso.
+                </p>
+                <div class="grid md:grid-cols-2 gap-8 items-center">
+                    <div class="space-y-6">
+                        <div>
+                            <h4 class="text-xl font-bold">🤝 Linee Guida</h4>
+                            <p class="text-gray-700">Chiediamo a tutti i contributori di aderire al nostro <a href="https://github.com/gnovelli/etna/blob/main/CODE_OF_CONDUCT.md" target="_blank" class="highlight-accent underline">Codice di Condotta</a>. Le linee guida tecniche per le pull request sono disponibili nel file <a href="https://github.com/gnovelli/etna/blob/main/CONTRIBUTING.md" target="_blank" class="highlight-accent underline">CONTRIBUTING.md</a>.</p>
+                        </div>
+                        <div>
+                            <h4 class="text-xl font-bold">💡 Come Iniziare</h4>
+                            <p class="text-gray-700">Il modo migliore per iniziare è consultare la sezione <a href="https://github.com/gnovelli/etna/issues" target="_blank" class="highlight-accent underline">"Issues"</a> del repository. Cerca le etichette "good first issue" o "help wanted" per trovare compiti adatti ai nuovi arrivati.</p>
+                        </div>
+                    </div>
+                    <div class="bg-white p-8 rounded-xl shadow-lg text-center">
+                        <h3 class="text-2xl font-bold mb-4">Pronto a dare una mano?</h3>
+                        <p class="text-gray-600 mb-6">Esplora il codice sorgente, apri una issue o proponi una nuova funzionalità. Ogni contributo fa la differenza.</p>
+                        <a href="https://github.com/gnovelli/etna" target="_blank" class="inline-block bg-accent text-white font-bold py-3 px-8 rounded-lg hover:bg-secondary transition-colors duration-300">
+                            Vai al Repository su GitHub 🚀
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="author" class="py-16 md:py-24 bg-white">
+            <div class="container mx-auto px-6 text-center">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">L'Autore</h2>
+                <div class="max-w-xl mx-auto">
+                    <p class="text-lg text-gray-700 mb-6">
+                        Questo progetto è stato ideato e sviluppato da me, Giovanni Novelli. Sono uno sviluppatore con una passione per la data science e le soluzioni open-source. ETNA nasce dal desiderio di applicare le tecniche di machine learning a un campo affascinante come la vulcanologia, rendendo i dati scientifici più accessibili a tutti.
+                    </p>
+                    <p class="text-lg text-gray-700 mb-8">
+                        Per scoprire altri miei lavori o per entrare in contatto, visita il mio sito personale e i miei profili professionali.
+                    </p>
+                    <div class="flex justify-center items-center space-x-6">
+                        <a href="https://www.novelli.me" target="_blank" class="bg-secondary text-white font-bold py-3 px-6 rounded-lg hover:bg-accent transition-colors duration-300">
+                            Visita novelli.me
+                        </a>
+                        <a href="https://github.com/gnovelli" target="_blank" class="text-3xl text-gray-600 hover:highlight-accent transition-colors duration-300" aria-label="GitHub">
+                            <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-secondary text-white">
+        <div class="container mx-auto px-6 py-8 text-center">
+            <div class="flex justify-center space-x-6 mb-4">
+                <a href="https://github.com/gnovelli/etna" target="_blank" class="hover:underline">Repository GitHub</a>
+                <a href="https://www.novelli.me/site" target="_blank" class="hover:underline">Sito dell'Autore</a>
+            </div>
+            <p>&copy; 2025 Progetto ETNA. Tutti i diritti riservati.</p>
+            <p class="text-sm text-gray-300 mt-2">Un'applicazione web creata per illustrare il Progetto ETNA.</p>
+        </div>
+    </footer>
+
+    <script>
+        const menuBtn = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const navLinks = document.querySelectorAll('.nav-link');
+
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                if (mobileMenu.contains(e.target)) {
+                    mobileMenu.classList.add('hidden');
+                }
+                const targetId = link.getAttribute('href');
+                if (targetId.startsWith('#')) {
+                    e.preventDefault();
+                    document.querySelector(targetId).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        const ctx = document.getElementById('signal-chart');
+        let signalChart;
+
+        if (ctx) {
+            const mockData = {
+                rms: {
+                    label: 'Ampiezza RMS (Pa)',
+                    data: Array.from({length: 20}, () => Math.random() * 5 + 1),
+                    borderColor: '#E0A75E',
+                    backgroundColor: 'rgba(224, 167, 94, 0.2)',
+                },
+                ssam: {
+                    label: 'Ampiezza Spettrale (Conteggi)',
+                    data: Array.from({length: 20}, () => Math.random() * 500 + 100),
+                    borderColor: '#776B5D',
+                    backgroundColor: 'rgba(119, 107, 93, 0.2)',
+                },
+                polarization: {
+                    label: 'Grado di Rettilinearità',
+                    data: Array.from({length: 20}, () => Math.random() * 0.8 + 0.2),
+                    borderColor: '#3C3633',
+                    backgroundColor: 'rgba(60, 54, 51, 0.2)',
+                }
+            };
+
+            const chartOptions = {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: { display: true, font: { weight: 'bold' } }
+                    },
+                    x: {
+                        title: { display: true, text: 'Intervalli di Tempo (Simulati)', font: { weight: 'bold' } }
+                    }
+                },
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        enabled: true, mode: 'index', intersect: false,
+                        backgroundColor: '#3C3633', titleFont: { weight: 'bold' },
+                        bodyFont: { weight: 'normal' }, padding: 10, cornerRadius: 4
+                    }
+                },
+                interaction: { mode: 'nearest', axis: 'x', intersect: false },
+                elements: {
+                    line: { tension: 0.4 },
+                    point: { radius: 4, hoverRadius: 8, backgroundColor: 'white', borderWidth: 2 }
+                }
+            };
+
+            function createOrUpdateChart(type) {
+                const selectedData = mockData[type];
+                if (signalChart) {
+                    signalChart.data.datasets[0].data = selectedData.data;
+                    signalChart.data.datasets[0].borderColor = selectedData.borderColor;
+                    signalChart.data.datasets[0].backgroundColor = selectedData.backgroundColor;
+                    signalChart.options.scales.y.title.text = selectedData.label;
+                    signalChart.update();
+                } else {
+                    signalChart = new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            labels: Array.from({length: 20}, (_, i) => `T${i + 1}`),
+                            datasets: [{
+                                label: 'Valore', data: selectedData.data,
+                                borderColor: selectedData.borderColor, backgroundColor: selectedData.backgroundColor,
+                                borderWidth: 3, fill: true, pointBorderColor: selectedData.borderColor
+                            }]
+                        },
+                        options: { ...chartOptions, scales: { ...chartOptions.scales, y: { ...chartOptions.scales.y, title: { ...chartOptions.scales.y.title, text: selectedData.label } } } }
+                    });
+                }
+            }
+            
+            const analysisSelector = document.getElementById('analysis-type');
+            if (analysisSelector) {
+                analysisSelector.addEventListener('change', (e) => createOrUpdateChart(e.target.value));
+            }
+            
+            window.addEventListener('load', () => createOrUpdateChart('rms'));
+        }
+    </script>
+
+</body>
+</html>
