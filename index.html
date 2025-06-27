@@ -12,7 +12,7 @@
     <!-- Chosen Palette: Etna Stone & Sky -->
     <!-- Application Structure Plan: Ho progettato una Single-Page Application (SPA) con una barra di navigazione laterale fissa e sezioni di contenuto scrollabili. Questa struttura è stata scelta per trasformare un report testuale in un'esperienza esplorabile e non lineare. L'utente può navigare facilmente tra i temi principali (Panoramica, Architettura, Tecnologie, etc.) senza perdere il contesto. Il fulcro interattivo è il diagramma dell'architettura, che permette di approfondire ogni componente con un clic, rendendo l'informazione più accessibile e coinvolgente rispetto a un diagramma statico. Questo approccio favorisce la comprensione e l'engagement dell'utente. -->
     <!-- Visualization & Content Choices: 
-        - Panoramica: Testo (Introduzione e Conclusioni) presentato in un layout pulito per informare.
+        - Panoramica: Testo (Introduzione e Conclusioni) presentato in un layout pulito per informare, con un disclaimer prominente.
         - Architettura: Diagramma organizzativo dettagliato (realizzato con HTML/CSS Flexbox) per mostrare il flusso dei dati attraverso i moduli specifici della codebase. L'interazione (click su un componente) mostra testo di approfondimento e un grafico di esempio, con lo scopo di spiegare e illustrare.
         - Grafico Esempio: Un grafico a linee (Chart.js su Canvas) con dati fittizi viene mostrato per rappresentare il tipo di output del sistema (es. SSAM), con l'obiettivo di illustrare concretamente un concetto astratto.
         - UML: Diagrammi UML (Componenti, Casi d'Uso, Sequenza) resi interattivi con HTML/CSS e JS per illustrare la struttura software.
@@ -108,6 +108,12 @@
     <main class="flex-1 p-6 sm:p-8 lg:p-12 overflow-y-auto">
         <div id="panoramica" class="space-y-8">
             <h2 class="text-3xl font-bold text-slate-800 border-b pb-4">Panoramica del Progetto</h2>
+            
+            <div class="bg-yellow-50 border-l-4 border-yellow-400 text-yellow-800 p-4 rounded-r-lg" role="alert">
+                <p class="font-bold">Disclaimer</p>
+                <p>Questo software è un prototipo sperimentale. Ogni tipo di deduzione tratta da esso non è adatta ad un sistema di produzione. L'autore ne sconsiglia una sua adozione senza una previa e approfondita valutazione. Può essere liberamente utilizzato come piattaforma di studio a fini personali o di ricerca.</p>
+            </div>
+
             <p class="text-lg text-slate-600">Questa sezione fornisce una visione d'insieme del progetto ETNA, descrivendone gli scopi, gli obiettivi e le conclusioni principali. È il punto di partenza ideale per comprendere la visione e l'impatto potenziale di questo sistema di monitoraggio.</p>
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
