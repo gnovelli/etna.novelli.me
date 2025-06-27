@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="it" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Progetto ETNA - Executive Summary</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FDFBF6;
+            color: #3C3633;
+        }
+        .highlight-accent {
+            color: #E0A75E;
+        }
+        .bg-accent {
+            background-color: #E0A75E;
+        }
+        .bg-secondary {
+            background-color: #776B5D;
+        }
+        .border-accent {
+            border-color: #E0A75E;
+        }
+    </style>
+</head>
+<body class="antialiased">
+    <header class="sticky top-0 z-50 bg-[#FDFBF6]/80 backdrop-blur-lg shadow-sm">
+        <nav class="container mx-auto px-6 py-3">
+            <div class="flex justify-between items-center">
+                <a href="index.html" class="text-xl font-bold nav-link">Progetto <span class="highlight-accent">ETNA</span></a>
+                <div class="hidden md:flex space-x-6 lg:space-x-8">
+                    <a href="index.html" class="hover:highlight-accent transition-colors duration-300 nav-link">Home</a>
+                    <a href="executive-summary.html" class="hover:highlight-accent transition-colors duration-300 nav-link">Executive Summary</a>
+                </div>
+                <div class="md:hidden">
+                    <button id="menu-btn" class="focus:outline-none">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                    </button>
+                </div>
+            </div>
+            <div id="mobile-menu" class="hidden md:hidden mt-4">
+                <a href="index.html" class="block py-2 text-center hover:bg-accent hover:text-white rounded transition-colors duration-300 nav-link">Home</a>
+                <a href="executive-summary.html" class="block py-2 text-center hover:bg-accent hover:text-white rounded transition-colors duration-300 nav-link">Executive Summary</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="py-16 md:py-24 bg-white" id="hero">
+            <div class="container mx-auto px-6 text-center">
+                <h1 class="text-4xl md:text-5xl font-extrabold mb-4">Executive Summary</h1>
+                <p class="text-lg md:text-xl text-gray-700">Progetto ETNA - Data: 27 giugno 2025</p>
+            </div>
+        </section>
+
+        <section class="py-16 md:py-24">
+            <div class="container mx-auto px-6 space-y-12">
+                <div>
+                    <h2 class="text-3xl md:text-4xl font-bold mb-4">1. Introduzione</h2>
+                    <p class="text-gray-700">Il progetto ETNA è una piattaforma software multi-parametrica per il monitoraggio dell'attività vulcanica del Monte Etna. Integra dati geofisici e geochimici, li elabora e li analizza con tecniche di machine learning per individuare possibili anomalie, generando report tramite agenti basati su LLM. L'architettura è containerizzata per favorire la modularità e il deployment.</p>
+                </div>
+
+                <div>
+                    <h2 class="text-3xl md:text-4xl font-bold mb-4">2. Scopo e Obiettivi del Progetto</h2>
+                    <p class="text-gray-700 mb-4">L'obiettivo è supportare vulcanologi e protezione civile nel monitoraggio del vulcano attraverso:</p>
+                    <ul class="list-disc list-inside space-y-2 text-gray-700">
+                        <li>Acquisizione dati centralizzata da stazioni sismiche, infrasoniche e da fonti di degassamento.</li>
+                        <li>Elaborazione dei dati con calcolo di parametri come SSAM, polarizzazione e correlazione incrociata.</li>
+                        <li>Rilevamento di anomalie con modelli di deep learning (Autoencoder Convoluzionali).</li>
+                        <li>Reporting assistito tramite agenti che utilizzano LLM via Ollama.</li>
+                        <li>Visualizzazione web e notifiche via Telegram.</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h2 class="text-3xl md:text-4xl font-bold mb-4">3. Architettura del Sistema</h2>
+                    <p class="text-gray-700 mb-4">Il sistema adotta un'architettura a microservizi orchestrata con Docker Compose. I principali componenti includono:</p>
+                    <ul class="list-disc list-inside space-y-2 text-gray-700">
+                        <li>Data Ingestion con obspy e server FDSN configurati in <code>config/stations.yaml</code>.</li>
+                        <li>Pipeline di elaborazione con calcolo di SSAM, RMS, analisi di polarizzazione e correlazione.</li>
+                        <li>Un Autoencoder Convoluzionale per il rilevamento di anomalie nei dati.</li>
+                        <li>Scheduler che pianifica l'acquisizione, l'elaborazione e il reporting.</li>
+                        <li>Agenti autonomi per la generazione di analisi tramite LLM.</li>
+                        <li>API RESTful basata su FastAPI e dashboard interattiva con Streamlit.</li>
+                        <li>Modulo di notifica via Telegram.</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h2 class="text-3xl md:text-4xl font-bold mb-4">4. Stack Tecnologico</h2>
+                    <p class="text-gray-700">Il progetto utilizza Python 3 e librerie come obspy, pandas, torch e FastAPI. La dashboard è realizzata con Streamlit e Plotly, mentre il deployment avviene tramite Docker e Docker Compose. Nginx funge da reverse proxy e GitHub Actions gestisce il processo di CI/CD.</p>
+                </div>
+
+                <div>
+                    <h2 class="text-3xl md:text-4xl font-bold mb-4">5. Deployment e Configurazione</h2>
+                    <p class="text-gray-700">Il sistema è eseguito tramite Docker. Il file <code>docker-compose.yml</code> definisce i servizi, mentre <code>config/stations.yaml</code> gestisce le stazioni di monitoraggio. Il workflow di GitHub Actions in <code>.github/workflows/deploy.yml</code> automatizza build e deploy.</p>
+                </div>
+
+                <div>
+                    <h2 class="text-3xl md:text-4xl font-bold mb-4">6. Conclusioni</h2>
+                    <p class="text-gray-700">ETNA combina analisi geofisiche e intelligenza artificiale per un monitoraggio continuo e accessibile. La dashboard rende i dati interpretabili, mentre gli agenti LLM offrono un approccio innovativo alla sintesi dei risultati.</p>
+                </div>
+
+                <div>
+                    <h2 class="text-3xl md:text-4xl font-bold mb-4">7. ETNA GPT Expert</h2>
+                    <p class="text-gray-700">Il progetto include un assistente "ETNA GPT Expert" progettato per rispondere alle domande sugli output, guidare all'uso del sistema e aiutare gli sviluppatori nella comprensione della codebase.</p>
+                </div>
+
+                <div>
+                    <h2 class="text-3xl md:text-4xl font-bold mb-4">8. Come Contribuire al Progetto</h2>
+                    <p class="text-gray-700 mb-4">Il progetto è open source e accoglie contributi. Il flusso di lavoro prevede:</p>
+                    <ul class="list-disc list-inside space-y-2 text-gray-700">
+                        <li>Apertura di issue sul repository GitHub.</li>
+                        <li>Fork del repository e sviluppo su branch dedicati.</li>
+                        <li>Invio di Pull Request collegate alle issue.</li>
+                        <li>Rispetto del Codice di Condotta e delle linee guida in <code>CONTRIBUTING.md</code>.</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h2 class="text-3xl md:text-4xl font-bold mb-4">9. Informazioni sull'Autore: Giovanni Novelli</h2>
+                    <p class="text-gray-700">Giovanni Novelli, nato a Catania, è laureato in Scienze dell'Informazione e ha conseguito un Ph.D. in Informatica. Lavora dal 1999 al Ministero della Giustizia e ha svolto attività di ricerca su Grid e Cloud Computing e sistemi multi-agente. Il progetto ETNA unisce queste competenze con l'obiettivo di applicare l'analisi dati e l'intelligenza artificiale al monitoraggio dell'Etna.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-secondary text-white">
+        <div class="container mx-auto px-6 py-8 text-center">
+            <div class="flex justify-center space-x-6 mb-4">
+                <a href="https://github.com/gnovelli/etna" target="_blank" class="hover:underline">Repository GitHub</a>
+                <a href="https://www.novelli.me/site" target="_blank" class="hover:underline">Sito dell'Autore</a>
+            </div>
+            <p>&copy; 2025 Progetto ETNA. Tutti i diritti riservati.</p>
+            <p class="text-sm text-gray-300 mt-2">Un'applicazione web creata per illustrare il Progetto ETNA.</p>
+        </div>
+    </footer>
+
+    <script>
+        const menuBtn = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const navLinks = document.querySelectorAll('.nav-link');
+
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                if (mobileMenu.contains(e.target)) {
+                    mobileMenu.classList.add('hidden');
+                }
+                const targetId = link.getAttribute('href');
+                if (targetId.startsWith('#')) {
+                    e.preventDefault();
+                    document.querySelector(targetId).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
