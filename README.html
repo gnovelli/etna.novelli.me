@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="it" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>README - Progetto Etna</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .nav-link.active {
+            color: #38bdf8; /* sky-400 */
+        }
+        .code-block {
+            background-color: #0f172a; /* slate-900 */
+            color: #e2e8f0;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            font-family: 'Menlo', 'Monaco', 'Courier New', monospace;
+            font-size: 0.875rem;
+            overflow-x: auto;
+            border: 1px solid #334155;
+        }
+        .inline-code {
+            background-color: #334155;
+            color: #e2e8f0;
+            padding: 0.2rem 0.4rem;
+            border-radius: 0.25rem;
+            font-size: 0.9em;
+        }
+        .content-section {
+            padding-top: 6rem;
+            margin-top: -4rem;
+        }
+    </style>
+</head>
+<body class="bg-slate-900 text-slate-300">
+
+    <!-- Header & Nav -->
+    <header class="sticky top-0 bg-slate-900/80 backdrop-blur-lg z-50 border-b border-slate-800">
+        <nav class="container mx-auto px-4">
+            <div class="flex items-center justify-between h-20">
+                <a href="index.html" class="text-2xl font-bold text-white">Progetto Etna</a>
+                <div class="hidden md:flex items-center space-x-6">
+                    <a href="#caratteristiche" class="nav-link text-slate-300 hover:text-white transition-colors">Caratteristiche</a>
+                    <a href="#setup" class="nav-link text-slate-300 hover:text-white transition-colors">Setup</a>
+                    <a href="#funzionamento" class="nav-link text-slate-300 hover:text-white transition-colors">Funzionamento</a>
+                    <a href="#configurazione" class="nav-link text-slate-300 hover:text-white transition-colors">Configurazione</a>
+                </div>
+            </div>
+        </nav>
+        <!-- Secondary Documentation Links -->
+        <div class="border-t border-slate-800 bg-slate-900/50">
+             <div class="container mx-auto px-4 flex justify-center items-center h-12">
+                <div class="flex items-center space-x-6 text-sm font-medium">
+                    <a href="README.html" class="text-sky-400 font-bold">README</a>
+                    <a href="UML.html" class="text-slate-400 hover:text-sky-400 transition-colors">UML</a>
+                    <a href="QUICKSTART.html" class="text-slate-400 hover:text-sky-400 transition-colors">Quick Start</a>
+                    <a href="API_TUTORIAL.html" class="text-slate-400 hover:text-sky-400 transition-colors">API Tutorial</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-12">
+
+        <!-- Titolo -->
+        <section class="text-center pt-12">
+            <h1 class="text-5xl font-bold text-white">Etna Tremor Monitor</h1>
+            <p class="mt-4 text-lg max-w-3xl mx-auto text-slate-300">
+                Questo progetto Python monitora il tremore vulcanico del Monte Etna recuperando dati sismici, calcolando i valori RMS orari, generando report e inviando notifiche tramite Telegram. L'interpretazione basata sull'IA sfrutta un modello locale servito tramite Ollama.
+            </p>
+             <div class="mt-6 flex justify-center gap-4">
+                <a href="UML.html" class="text-sky-400 hover:underline">Panoramica Architettura (UML)</a>
+                <span class="text-slate-500">|</span>
+                <a href="QUICKSTART.html" class="text-sky-400 hover:underline">Guida Rapida (Quick Start)</a>
+            </div>
+        </section>
+
+        <!-- Caratteristiche Principali -->
+        <section id="caratteristiche" class="content-section space-y-8">
+            <h2 class="text-3xl font-bold text-white border-b border-slate-700 pb-4">✨ Caratteristiche Principali</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="bg-slate-800/50 p-6 rounded-xl border border-slate-700">
+                    <h3 class="font-bold text-sky-400 mb-2">Acquisizione Dati Sismici</h3>
+                    <p class="text-sm">Scarica dati da stazioni sismiche intorno all'Etna tramite servizi web FDSN (INGV).</p>
+                </div>
+                <div class="bg-slate-800/50 p-6 rounded-xl border border-slate-700">
+                    <h3 class="font-bold text-sky-400 mb-2">Download Incrementale</h3>
+                    <p class="text-sm">Gestisce un download efficiente e l'archiviazione locale di file miniSEED, scaricando solo dati nuovi.</p>
+                </div>
+                <div class="bg-slate-800/50 p-6 rounded-xl border border-slate-700">
+                    <h3 class="font-bold text-sky-400 mb-2">Calcolo RMS</h3>
+                    <p class="text-sm">Elabora i dati grezzi per calcolare i valori RMS medi orari, un indicatore dell'ampiezza del tremore.</p>
+                </div>
+                <div class="bg-slate-800/50 p-6 rounded-xl border border-slate-700">
+                    <h3 class="font-bold text-sky-400 mb-2">Interpretazione AI</h3>
+                    <p class="text-sm">Utilizza un modello Ollama locale per fornire un'analisi testuale dei pattern di tremore osservati.</p>
+                </div>
+                <div class="bg-slate-800/50 p-6 rounded-xl border border-slate-700">
+                    <h3 class="font-bold text-sky-400 mb-2">Reportistica PDF</h3>
+                    <p class="text-sm">Crea un report PDF completo con grafici, tabelle, mappe di polarizzazione e analisi AI.</p>
+                </div>
+                <div class="bg-slate-800/50 p-6 rounded-xl border border-slate-700">
+                    <h3 class="font-bold text-sky-400 mb-2">Notifiche Telegram</h3>
+                    <p class="text-sm">Invia grafici, riepiloghi, report PDF e file Excel a una chat Telegram specificata.</p>
+                </div>
+                 <div class="bg-slate-800/50 p-6 rounded-xl border border-slate-700">
+                    <h3 class="font-bold text-sky-400 mb-2">Embeddings dei Bollettini</h3>
+                    <p class="text-sm">Calcola gli embedding dei bollettini INGV per trovare i comunicati più pertinenti per le risposte AI.</p>
+                </div>
+                 <div class="bg-slate-800/50 p-6 rounded-xl border border-slate-700">
+                    <h3 class="font-bold text-sky-400 mb-2">Containerizzazione Docker</h3>
+                    <p class="text-sm">Fornito con un `docker-compose.yml` e un `Dockerfile` a più stadi per un deployment semplice.</p>
+                </div>
+                 <div class="bg-slate-800/50 p-6 rounded-xl border border-slate-700">
+                    <h3 class="font-bold text-sky-400 mb-2">Analisi di Polarizzazione</h3>
+                    <p class="text-sm">Elabora i 3 componenti sismici per calcolare il back-azimuth e la direzione di provenienza del segnale.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Setup e Avvio -->
+        <section id="setup" class="content-section space-y-8">
+            <h2 class="text-3xl font-bold text-white border-b border-slate-700 pb-4">🚀 Setup e Avvio</h2>
+            <div class="bg-slate-800/50 p-6 rounded-xl shadow-lg border border-slate-700 space-y-8">
+                <div>
+                    <h3 class="text-xl font-bold text-slate-100 mb-2">1. Prerequisiti</h3>
+                    <p class="text-slate-300">Assicurarsi di avere installato <strong class="text-white">Docker</strong> e <strong class="text-white">Docker Compose</strong>. È necessario anche un bot Telegram e il servizio Ollama in esecuzione.</p>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold text-slate-100 mb-2">2. Configura le Variabili d'Ambiente</h3>
+                    <p class="text-slate-300 mb-2">Copia il file <code class="inline-code">.env.example</code> in <code class="inline-code">.env</code> e personalizza le variabili (token, URL, etc.).</p>
+                    <pre class="code-block"><code>TELEGRAM_BOT_TOKEN=IL_TUO_TOKEN_BOT_TELEGRAM
+TELEGRAM_CHAT_ID=IL_TUO_ID_CHAT_TELEGRAM
+OLLAMA_MODEL=qwen3:1.7b
+OLLAMA_URL=http://ollama:11434
+# ... e altre variabili</code></pre>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold text-slate-100 mb-2">3. Build e Avvia con Docker Compose</h3>
+                    <p class="text-slate-300 mb-2">Il primo comando avvia il servizio LLM, il secondo avvia l'applicazione.</p>
+                    <pre class="code-block"><code># Avvia il servizio Ollama e scarica il modello
+docker-compose up --build -d ollama
+
+# Avvia il servizio principale di Etna
+docker-compose up -d etna-service</code></pre>
+                </div>
+                 <div>
+                    <h3 class="text-xl font-bold text-slate-100 mb-2">4. Controllare i Log (Opzionale)</h3>
+                    <p class="text-slate-300 mb-2">Per visualizzare l'output dello script in esecuzione:</p>
+                    <pre class="code-block"><code>docker-compose logs -f etna-service</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Come Funziona -->
+        <section id="funzionamento" class="content-section space-y-8">
+            <h2 class="text-3xl font-bold text-white border-b border-slate-700 pb-4">⚙️ Come Funziona</h2>
+            <p class="text-lg text-slate-300">Lo script <code class="inline-code">etna.cli</code>, orchestrato da <code class="inline-code">etna.scheduler</code>, esegue un flusso di lavoro automatizzato per il monitoraggio.</p>
+            <div class="relative pl-8 bg-slate-800/50 p-6 rounded-xl border border-slate-700">
+                <div class="absolute left-4 top-6 bottom-6 w-0.5 bg-slate-700"></div>
+                <div class="relative mb-6">
+                    <div class="absolute -left-[2.1rem] top-1 w-8 h-8 bg-sky-500 text-white rounded-full flex items-center justify-center font-bold">1</div>
+                    <h4 class="font-bold text-sky-400">Inizializzazione e Finestra Temporale</h4>
+                    <p class="text-slate-300 text-sm">Carica la configurazione e definisce il periodo di analisi (es. ultimi 7 giorni).</p>
+                </div>
+                <div class="relative mb-6">
+                    <div class="absolute -left-[2.1rem] top-1 w-8 h-8 bg-sky-500 text-white rounded-full flex items-center justify-center font-bold">2</div>
+                    <h4 class="font-bold text-sky-400">Acquisizione e Calcolo RMS</h4>
+                    <p class="text-slate-300 text-sm">Per ogni stazione, scarica i file miniSEED e calcola i valori RMS aggregandoli su base oraria.</p>
+                </div>
+                <div class="relative mb-6">
+                    <div class="absolute -left-[2.1rem] top-1 w-8 h-8 bg-sky-500 text-white rounded-full flex items-center justify-center font-bold">3</div>
+                    <h4 class="font-bold text-sky-400">Generazione Artefatti</h4>
+                    <p class="text-slate-300 text-sm">Crea il grafico RMS, la mappa di polarizzazione e interroga il modello AI per un'interpretazione testuale.</p>
+                </div>
+                <div class="relative mb-6">
+                    <div class="absolute -left-[2.1rem] top-1 w-8 h-8 bg-sky-500 text-white rounded-full flex items-center justify-center font-bold">4</div>
+                    <h4 class="font-bold text-sky-400">Creazione Report PDF</h4>
+                    <p class="text-slate-300 text-sm">Assembla tutti gli artefatti (grafici, tabelle, testo AI) in un unico report PDF completo.</p>
+                </div>
+                <div class="relative">
+                    <div class="absolute -left-[2.1rem] top-1 w-8 h-8 bg-sky-500 text-white rounded-full flex items-center justify-center font-bold">5</div>
+                    <h4 class="font-bold text-sky-400">Notifica</h4>
+                    <p class="text-slate-300 text-sm">Invia il report, i grafici e i dati su Telegram, e infine pulisce i file temporanei.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Configurazione -->
+        <section id="configurazione" class="content-section space-y-8">
+            <h2 class="text-3xl font-bold text-white border-b border-slate-700 pb-4">🔧 Configurazione</h2>
+            <p class="text-lg text-slate-300">La configurazione è gestita tramite variabili d'ambiente (nel file <code class="inline-code">.env</code>) e file di configurazione YAML.</p>
+            <div class="bg-slate-800/50 p-6 rounded-xl shadow-lg border border-slate-700 space-y-4">
+                <h3 class="text-xl font-bold text-slate-100">Variabili d'Ambiente Principali</h3>
+                <ul class="list-disc list-inside space-y-2 text-slate-300">
+                    <li><code class="inline-code">TELEGRAM_BOT_TOKEN</code>: Token del bot Telegram.</li>
+                    <li><code class="inline-code">TELEGRAM_CHAT_ID</code>: ID della chat per le notifiche.</li>
+                    <li><code class="inline-code">OLLAMA_MODEL</code>: Modello LLM da utilizzare (es. <code class="inline-code">qwen3:1.7b</code>).</li>
+                    <li><code class="inline-code">OLLAMA_URL</code>: URL del servizio Ollama.</li>
+                    <li><code class="inline-code">ETNA_CRON</code>: Espressione cron per il report giornaliero (default <code class="inline-code">0 8 * * *</code>).</li>
+                    <li><code class="inline-code">STATIONS_CONFIG</code>: Percorso del file di configurazione delle stazioni (default <code class="inline-code">config/stations.yaml</code>).</li>
+                    <li><code class="inline-code">ETNA_HOST</code>: Nome di dominio per il servizio API (usato da Nginx e Certbot).</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Roadmap -->
+        <section id="roadmap" class="content-section space-y-8">
+            <h2 class="text-3xl font-bold text-white border-b border-slate-700 pb-4">🚧 Roadmap</h2>
+            <div class="bg-slate-800/50 p-6 rounded-xl shadow-lg border border-slate-700">
+                <ul class="space-y-3">
+                    <li class="flex items-center"><span class="text-green-400 mr-3">✅</span> Estendere `etna.cli` con analisi SSAM.</li>
+                    <li class="flex items-center"><span class="text-green-400 mr-3">✅</span> Supporto a 3 componenti sismiche con polarizzazione.</li>
+                    <li class="flex items-center"><span class="text-orange-400 mr-3">⏳</span> Refactoring scientifico del codice con copertura di test.</li>
+                    <li class="flex items-center"><span class="text-orange-400 mr-3">⏳</span> Integrazione dati infrasonici e flussi di gas (SO₂) (funzioni sperimentali presenti).</li>
+                    <li class="flex items-center"><span class="text-slate-500 mr-3">📋</span> Creazione dashboard multiparametrica.</li>
+                    <li class="flex items-center"><span class="text-slate-500 mr-3">📋</span> Correlazione RMS sismico + acustico + geochimico.</li>
+                    <li class="flex items-center"><span class="text-orange-400 mr-3">⏳</span> Addestramento Autoencoder LSTM per rilevamento anomalie (funzioni sperimentali presenti).</li>
+                    <li class="flex items-center"><span class="text-slate-500 mr-3">📋</span> Dataset supervisionati per classificazione stati vulcanici.</li>
+                    <li class="flex items-center"><span class="text-green-400 mr-3">✅</span> Gestione dataset di classificazione con il comando `etna dataset`.</li>
+                    <li class="flex items-center"><span class="text-slate-500 mr-3">📋</span> Reti neurali per previsione probabilistica di eventi eruttivi.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Disclaimer -->
+        <section id="disclaimer" class="content-section">
+             <div class="max-w-3xl mx-auto bg-yellow-900/20 border border-yellow-500/50 rounded-lg p-6 shadow-lg">
+                <h3 class="text-xl font-bold text-yellow-300 mb-3">📜 Disclaimer</h3>
+                <p class="text-yellow-200 leading-relaxed">
+                    I dati e le interpretazioni forniti da questo script sono intesi per scopo informativo e di monitoraggio personale. <strong>Per informazioni ufficiali e allerte sullo stato di attività del Monte Etna, fare sempre riferimento ai bollettini e ai comunicati emessi dall'Istituto Nazionale di Geofisica e Vulcanologia (INGV) - Osservatorio Etneo: <a href="http://www.ct.ingv.it/" target="_blank" rel="noopener noreferrer" class="font-semibold text-yellow-100 hover:underline">www.ct.ingv.it</a></strong>.
+                </p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="text-center py-8 border-t border-slate-800 mt-16">
+        <p class="text-slate-500">Progetto Etna - Un esperimento di monitoraggio vulcanico.</p>
+        <p class="text-slate-600 text-sm mt-2">Copyright © 2024 Giovanni Novelli. Tutti i diritti riservati. Il codice sorgente è privato.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('main > section');
+
+            function updateActiveSection() {
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    if (window.scrollY >= sectionTop - 150) {
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === `#${current}`) {
+                        link.classList.add('active');
+                    }
+                });
+            }
+            
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const targetId = link.getAttribute('href');
+                    document.querySelector(targetId).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+
+            window.addEventListener('scroll', updateActiveSection);
+            updateActiveSection();
+        });
+    </script>
+</body>
+</html>
