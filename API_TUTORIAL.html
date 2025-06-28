@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="it" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Tutorial - Progetto Etna</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .nav-link.active {
+            color: #38bdf8; /* sky-400 */
+        }
+        .code-block {
+            background-color: #0f172a; /* slate-900 */
+            color: #e2e8f0;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            font-family: 'Menlo', 'Monaco', 'Courier New', monospace;
+            font-size: 0.875rem;
+            overflow-x: auto;
+            border: 1px solid #334155;
+            position: relative;
+        }
+        .inline-code {
+            background-color: #334155;
+            color: #e2e8f0;
+            padding: 0.2rem 0.4rem;
+            border-radius: 0.25rem;
+            font-size: 0.9em;
+        }
+        .content-section {
+            padding-top: 6rem;
+            margin-top: -4rem;
+        }
+        .code-lang-tag {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background-color: #334155;
+            color: #94a3b8;
+            font-size: 0.75rem;
+            padding: 0.125rem 0.5rem;
+            border-radius: 0.25rem;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body class="bg-slate-900 text-slate-300">
+
+    <!-- Header & Nav -->
+    <header class="sticky top-0 bg-slate-900/80 backdrop-blur-lg z-50 border-b border-slate-800">
+        <nav class="container mx-auto px-4">
+            <div class="flex items-center justify-between h-20">
+                <a href="index.html" class="text-2xl font-bold text-white">Progetto Etna</a>
+                <div class="hidden md:flex items-center space-x-6">
+                    <a href="#autenticazione" class="nav-link text-slate-300 hover:text-white transition-colors">Autenticazione</a>
+                    <a href="#endpoints" class="nav-link text-slate-300 hover:text-white transition-colors">Endpoints</a>
+                </div>
+            </div>
+        </nav>
+        <!-- Secondary Documentation Links -->
+        <div class="border-t border-slate-800 bg-slate-900/50">
+             <div class="container mx-auto px-4 flex justify-center items-center h-12">
+                <div class="flex items-center space-x-6 text-sm font-medium">
+                    <a href="README.html" class="text-slate-400 hover:text-sky-400 transition-colors">README</a>
+                    <a href="UML.html" class="text-slate-400 hover:text-sky-400 transition-colors">UML</a>
+                    <a href="QUICKSTART.html" class="text-slate-400 hover:text-sky-400 transition-colors">Quick Start</a>
+                    <a href="API_TUTORIAL.html" class="text-sky-400 font-bold">API Tutorial</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-12">
+
+        <!-- Titolo -->
+        <section class="text-center pt-12">
+            <h1 class="text-5xl font-bold text-white">API Tutorial</h1>
+            <p class="mt-4 text-lg max-w-3xl mx-auto text-slate-300">
+                Questa guida mostra come interagire con ogni endpoint REST dell'API di Etna utilizzando <code class="inline-code">curl</code> o la libreria <code class="inline-code">requests</code> di Python.
+            </p>
+        </section>
+
+        <!-- Autenticazione -->
+        <section id="autenticazione" class="content-section space-y-8">
+            <h2 class="text-3xl font-bold text-white border-b border-slate-700 pb-4">Autenticazione</h2>
+            <p class="text-lg text-slate-300">
+                Tutti gli endpoint, ad eccezione di <code class="inline-code">/privacy</code> e <code class="inline-code">/openapi.json</code>, richiedono l'autenticazione tramite la tua chiave API. Sostituisci <code class="inline-code">BASE_URL</code> con l'indirizzo del tuo deployment (es. <code class="inline-code">https://etna.tuodominio.com</code>) e <code class="inline-code">API_KEY</code> con il valore impostato in <code class="inline-code">ETNA_API_KEY</code>.
+            </p>
+            <div class="bg-slate-800/50 p-6 rounded-xl border border-slate-700 space-y-4">
+                <h3 class="text-xl font-bold text-slate-100">Impostazioni Iniziali</h3>
+                <pre class="code-block"><span class="code-lang-tag">bash</span><code>BASE_URL=https://etna.tuodominio.com
+API_KEY=la-tua-chiave-segreta</code></pre>
+                <h3 class="text-xl font-bold text-slate-100 mt-4">Metodi di Autenticazione</h3>
+                <p>Puoi usare un header <code class="inline-code">Bearer</code> token o l'autenticazione HTTP Basic.</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <p class="font-medium mb-2">Bearer Token:</p>
+                        <pre class="code-block"><span class="code-lang-tag">http</span><code>Authorization: Bearer $API_KEY</code></pre>
+                    </div>
+                    <div>
+                        <p class="font-medium mb-2">HTTP Basic Auth:</p>
+                        <pre class="code-block"><span class="code-lang-tag">bash</span><code>curl -u $API_KEY: "$BASE_URL/api/v1/events"</code></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Endpoints -->
+        <section id="endpoints" class="content-section space-y-12">
+            <h2 class="text-3xl font-bold text-white border-b border-slate-700 pb-4">Endpoints API</h2>
+
+            <!-- Get Events -->
+            <div id="get-events" class="space-y-4">
+                <h3 class="text-2xl font-semibold text-sky-400">Get Events</h3>
+                <p>Recupera gli eventi registrati, filtrabili secondo vari criteri.</p>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                    <pre class="code-block"><span class="code-lang-tag">bash</span><code># Con Bearer token
+curl -H "Authorization: Bearer $API_KEY" \
+  "$BASE_URL/api/v1/events?limit=5"
+
+# Con Basic auth
+curl -u $API_KEY: \
+  "$BASE_URL/api/v1/events?limit=5"</code></pre>
+                    <pre class="code-block"><span class="code-lang-tag">python</span><code>import requests
+
+headers = {"Authorization": f"Bearer {API_KEY}"}
+params = {"limit": 5}
+res = requests.get(
+    f"{BASE_URL}/api/v1/events", 
+    headers=headers, 
+    params=params
+)
+print(res.json())</code></pre>
+                </div>
+            </div>
+
+            <!-- Station Activity -->
+            <div id="station-activity" class="space-y-4">
+                <h3 class="text-2xl font-semibold text-sky-400">Station Activity</h3>
+                <p>Classifica l'attività delle stazioni in base al valore RMS medio delle ultime <code class="inline-code">hours</code> ore.</p>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                    <pre class="code-block"><span class="code-lang-tag">bash</span><code>curl -H "Authorization: Bearer $API_KEY" \
+  "$BASE_URL/api/v1/stations/activity?hours=24"</code></pre>
+                    <pre class="code-block"><span class="code-lang-tag">python</span><code>params = {"hours": 24}
+res = requests.get(
+    f"{BASE_URL}/api/v1/stations/activity",
+    headers=headers,
+    params=params
+)
+print(res.json())</code></pre>
+                </div>
+            </div>
+
+            <!-- Station RMS Time Series -->
+            <div id="station-rms" class="space-y-4">
+                <h3 class="text-2xl font-semibold text-sky-400">Station RMS Time Series</h3>
+                <p>Restituisce la serie temporale dei valori RMS per le stazioni selezionate.</p>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                    <pre class="code-block"><span class="code-lang-tag">bash</span><code>curl -H "Authorization: Bearer $API_KEY" \
+  "$BASE_URL/api/v1/stations/rms?station_codes=ECPN&hours=48"</code></pre>
+                    <pre class="code-block"><span class="code-lang-tag">python</span><code>params = {"station_codes": ["ECPN"], "hours": 48}
+res = requests.get(
+    f"{BASE_URL}/api/v1/stations/rms",
+    headers=headers,
+    params=params
+)
+print(res.json())</code></pre>
+                </div>
+            </div>
+
+            <!-- Station Polarization -->
+            <div id="station-polarization" class="space-y-4">
+                <h3 class="text-2xl font-semibold text-sky-400">Station Polarization</h3>
+                <p>Fornisce il back-azimuth rappresentativo orario per ogni stazione.</p>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                    <pre class="code-block"><span class="code-lang-tag">bash</span><code>curl -H "Authorization: Bearer $API_KEY" \
+  "$BASE_URL/api/v1/stations/polarization?hours=12"</code></pre>
+                    <pre class="code-block"><span class="code-lang-tag">python</span><code>params = {"hours": 12}
+res = requests.get(
+    f"{BASE_URL}/api/v1/stations/polarization",
+    headers=headers,
+    params=params
+)
+print(res.json())</code></pre>
+                </div>
+            </div>
+
+            <!-- Station SSAM Analysis -->
+            <div id="station-ssam" class="space-y-4">
+                <h3 class="text-2xl font-semibold text-sky-400">Station SSAM Analysis</h3>
+                <p>Esegue l'analisi SSAM per le stazioni e le bande di frequenza selezionate.</p>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                    <pre class="code-block"><span class="code-lang-tag">bash</span><code>curl -H "Authorization: Bearer $API_KEY" \
+  "$BASE_URL/api/v1/stations/ssam?station_codes=ECPN&bands=2-4"</code></pre>
+                    <pre class="code-block"><span class="code-lang-tag">python</span><code>params = {"station_codes": ["ECPN"], "bands": ["2-4"]}
+res = requests.get(
+    f"{BASE_URL}/api/v1/stations/ssam",
+    headers=headers,
+    params=params
+)
+print(res.json())</code></pre>
+                </div>
+            </div>
+            
+            <!-- Correlations -->
+            <div id="correlations" class="space-y-4">
+                <h3 class="text-2xl font-semibold text-sky-400">Correlations</h3>
+                <p>Restituisce la matrice di correlazione tra RMS, Infrasuoni e Gas per una data finestra temporale.</p>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                    <pre class="code-block"><span class="code-lang-tag">bash</span><code>curl -H "Authorization: Bearer $API_KEY" \
+  "$BASE_URL/api/v1/correlations?start_date=2024-01-01T00:00:00Z&end_date=2024-01-07T00:00:00Z"</code></pre>
+                    <pre class="code-block"><span class="code-lang-tag">python</span><code>params = {
+    "start_date": "2024-01-01T00:00:00Z",
+    "end_date": "2024-01-07T00:00:00Z",
+}
+res = requests.get(
+    f"{BASE_URL}/api/v1/correlations",
+    headers=headers,
+    params=params
+)
+print(res.json())</code></pre>
+                </div>
+            </div>
+
+            <!-- Bulletins -->
+            <div id="bulletins" class="space-y-4">
+                <h3 class="text-2xl font-semibold text-sky-400">Bulletins</h3>
+                <p>Elenca i bollettini disponibili o scarica un singolo PDF tramite il suo ID.</p>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                    <pre class="code-block"><span class="code-lang-tag">bash</span><code># Elenca gli ultimi 10 bollettini
+curl -H "Authorization: Bearer $API_KEY" \
+  "$BASE_URL/api/v1/bulletins?limit=10"
+
+# Scarica un bollettino specifico
+curl -H "Authorization: Bearer $API_KEY" \
+  "$BASE_URL/api/v1/bulletins?id=0" --output bollettino.pdf</code></pre>
+                    <pre class="code-block"><span class="code-lang-tag">python</span><code># Elenca bollettini
+params = {"limit": 10}
+res = requests.get(
+    f"{BASE_URL}/api/v1/bulletins",
+    headers=headers,
+    params=params
+)
+print(res.json())</code></pre>
+                </div>
+            </div>
+
+            <!-- Anomaly Detection -->
+            <div id="anomaly-detection" class="space-y-4">
+                <h3 class="text-2xl font-semibold text-sky-400">Anomaly Detection</h3>
+                <p>Rileva anomalie nei dati di una stazione utilizzando l'autoencoder LSTM.</p>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                    <pre class="code-block"><span class="code-lang-tag">bash</span><code>curl -X POST -H "Authorization: Bearer $API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"station": "ECPN", "threshold": 0.5}' \
+  "$BASE_URL/api/v1/anomalies/detect"</code></pre>
+                    <pre class="code-block"><span class="code-lang-tag">python</span><code>payload = {"station": "ECPN", "threshold": 0.5}
+res = requests.post(
+    f"{BASE_URL}/api/v1/anomalies/detect",
+    headers=headers,
+    json=payload
+)
+print(res.json())</code></pre>
+                </div>
+            </div>
+            
+            <!-- Privacy Policy -->
+            <div id="privacy-policy" class="space-y-4">
+                <h3 class="text-2xl font-semibold text-sky-400">Privacy Policy</h3>
+                <p>Recupera la privacy policy del servizio (non richiede autenticazione).</p>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                    <pre class="code-block"><span class="code-lang-tag">bash</span><code>curl "$BASE_URL/privacy"</code></pre>
+                    <pre class="code-block"><span class="code-lang-tag">python</span><code>res = requests.get(f"{BASE_URL}/privacy")
+print(res.json())</code></pre>
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+
+    <footer class="text-center py-8 border-t border-slate-800 mt-16">
+        <p class="text-slate-500">Progetto Etna - Un esperimento di monitoraggio vulcanico.</p>
+        <p class="text-slate-600 text-sm mt-2">Copyright © 2024 Giovanni Novelli. Tutti i diritti riservati. Il codice sorgente è privato.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('main > section');
+
+            function updateActiveSection() {
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    if (window.scrollY >= sectionTop - 150) {
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === `#${current}`) {
+                        link.classList.add('active');
+                    }
+                });
+            }
+            
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const targetId = link.getAttribute('href');
+                    document.querySelector(targetId).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+
+            window.addEventListener('scroll', updateActiveSection);
+            updateActiveSection();
+        });
+    </script>
+</body>
+</html>
