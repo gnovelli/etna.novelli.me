@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="it" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quick Start - Progetto Etna</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .nav-link.active {
+            color: #38bdf8; /* sky-400 */
+        }
+        .code-block {
+            background-color: #0f172a; /* slate-900 */
+            color: #e2e8f0;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            font-family: 'Menlo', 'Monaco', 'Courier New', monospace;
+            font-size: 0.875rem;
+            overflow-x: auto;
+            border: 1px solid #334155;
+        }
+        .inline-code {
+            background-color: #334155;
+            color: #e2e8f0;
+            padding: 0.2rem 0.4rem;
+            border-radius: 0.25rem;
+            font-size: 0.9em;
+        }
+        .content-section {
+            padding-top: 6rem;
+            margin-top: -4rem;
+        }
+        .step-number {
+            background-color: #0ea5e9; /* sky-500 */
+            color: #ffffff;
+            border-radius: 9999px;
+            width: 2.5rem;
+            height: 2.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.125rem;
+            flex-shrink: 0;
+        }
+    </style>
+</head>
+<body class="bg-slate-900 text-slate-300">
+
+    <!-- Header & Nav -->
+    <header class="sticky top-0 bg-slate-900/80 backdrop-blur-lg z-50 border-b border-slate-800">
+        <nav class="container mx-auto px-4">
+            <div class="flex items-center justify-between h-20">
+                <a href="index.html" class="text-2xl font-bold text-white">Progetto Etna</a>
+                <div class="hidden md:flex items-center space-x-6">
+                    <a href="#prerequisiti" class="nav-link text-slate-300 hover:text-white transition-colors">Prerequisiti</a>
+                    <a href="#configurazione" class="nav-link text-slate-300 hover:text-white transition-colors">Configurazione</a>
+                    <a href="#avvio" class="nav-link text-slate-300 hover:text-white transition-colors">Avvio</a>
+                </div>
+            </div>
+        </nav>
+        <!-- Secondary Documentation Links -->
+        <div class="border-t border-slate-800 bg-slate-900/50">
+             <div class="container mx-auto px-4 flex justify-center items-center h-12">
+                <div class="flex items-center space-x-6 text-sm font-medium">
+                    <a href="README.html" class="text-slate-400 hover:text-sky-400 transition-colors">README</a>
+                    <a href="UML.html" class="text-slate-400 hover:text-sky-400 transition-colors">UML</a>
+                    <a href="QUICKSTART.html" class="text-sky-400 font-bold">Quick Start</a>
+                    <a href="API_TUTORIAL.html" class="text-slate-400 hover:text-sky-400 transition-colors">API Tutorial</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-12">
+
+        <!-- Titolo -->
+        <section class="text-center pt-12">
+            <h1 class="text-5xl font-bold text-white">🌋 Guida di Avvio Rapido</h1>
+            <p class="mt-4 text-lg max-w-3xl mx-auto text-slate-300">
+                Questa guida ti mostrerà come avviare un'istanza locale del sistema di monitoraggio ETNA. Segui questi passaggi per configurare il tuo ambiente e lanciare i servizi.
+            </p>
+        </section>
+
+        <!-- Prerequisiti -->
+        <section id="prerequisiti" class="content-section space-y-8">
+            <h2 class="text-3xl font-bold text-white border-b border-slate-700 pb-4">1. Prerequisiti</h2>
+            <p class="text-lg text-slate-300">Prima di iniziare, assicurati di avere a disposizione tutto il necessario.</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-slate-800/50 p-6 rounded-xl border border-slate-700 flex items-start gap-4">
+                    <div class="text-3xl">🖥️</div>
+                    <div>
+                        <h3 class="font-bold text-sky-400">Host con Docker</h3>
+                        <p class="text-sm">Un server o un computer con Docker e Docker Compose installati e funzionanti.</p>
+                    </div>
+                </div>
+                <div class="bg-slate-800/50 p-6 rounded-xl border border-slate-700 flex items-start gap-4">
+                    <div class="text-3xl">🌐</div>
+                    <div>
+                        <h3 class="font-bold text-sky-400">Dominio Pubblico</h3>
+                        <p class="text-sm">Un nome di dominio (es. <code class="inline-code">etna.esempio.com</code>) che punta all'indirizzo IP pubblico del tuo host.</p>
+                    </div>
+                </div>
+                <div class="bg-slate-800/50 p-6 rounded-xl border border-slate-700 flex items-start gap-4">
+                    <div class="text-3xl">🤖</div>
+                    <div>
+                        <h3 class="font-bold text-sky-400">Credenziali Telegram</h3>
+                        <p class="text-sm">Un token per il bot, l'ID della chat di destinazione e il tuo username per i comandi autorizzati.</p>
+                    </div>
+                </div>
+                 <div class="bg-slate-800/50 p-6 rounded-xl border border-slate-700 flex items-start gap-4">
+                    <div class="text-3xl">📂</div>
+                    <div>
+                        <h3 class="font-bold text-sky-400">Codice Sorgente</h3>
+                        <p class="text-sm">Il repository del progetto clonato sul tuo host.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Configurazione e Avvio -->
+        <section id="configurazione" class="content-section space-y-12">
+            <h2 class="text-3xl font-bold text-white border-b border-slate-700 pb-4">2. Configurazione e Avvio</h2>
+            
+            <!-- Step 1: Clona Repository -->
+            <div class="flex items-start gap-6">
+                <div class="step-number">1</div>
+                <div>
+                    <h3 class="text-2xl font-bold text-slate-100 mb-2">Clona il Repository</h3>
+                    <p class="text-slate-300 mb-4">Ottieni il codice sorgente dal repository ufficiale e naviga nella directory del progetto.</p>
+                    <pre class="code-block"><code>git clone https://github.com/gnovelli/etna.git
+cd etna</code></pre>
+                </div>
+            </div>
+
+            <!-- Step 2: Crea file .env -->
+            <div class="flex items-start gap-6">
+                <div class="step-number">2</div>
+                <div>
+                    <h3 class="text-2xl font-bold text-slate-100 mb-2">Crea il file di configurazione <code class="inline-code">.env</code></h3>
+                    <p class="text-slate-300 mb-4">Crea un file chiamato <code class="inline-code">.env</code> nella root del progetto e inserisci le tue credenziali e il tuo dominio. Puoi usare <code class="inline-code">env.example</code> come modello se presente.</p>
+                    <pre class="code-block"><code># Credenziali del tuo Bot Telegram
+TELEGRAM_BOT_TOKEN=IL_TUO_TOKEN_SEGRETO
+TELEGRAM_CHAT_ID=L_ID_DELLA_TUA_CHAT
+TELEGRAM_ALLOWED_USERNAME=IL_TUO_USERNAME_TELEGRAM
+
+# Dominio del tuo host
+ETNA_HOST=etna.tuodominio.com
+
+# Impostazioni di default per il modello AI (puoi lasciarle così)
+OLLAMA_MODEL=qwen3:1.7b
+OLLAMA_URL=http://ollama:11434</code></pre>
+                </div>
+            </div>
+            
+            <!-- Step 3: Ottieni Certificato SSL -->
+            <div id="avvio" class="flex items-start gap-6">
+                <div class="step-number">3</div>
+                <div>
+                    <h3 class="text-2xl font-bold text-slate-100 mb-2">Ottieni il Certificato SSL (Solo la prima volta)</h3>
+                    <p class="text-slate-300 mb-4">Per abilitare l'HTTPS, esegui questi comandi per ottenere un certificato da Let's Encrypt. Sostituisci <code class="inline-code">tua@email.com</code> con il tuo indirizzo email.</p>
+                    <pre class="code-block"><code># Avvia il container per la validazione HTTP
+docker-compose up -d nginx-challenge
+
+# Esegui Certbot per ottenere il certificato
+docker-compose run --rm certbot certonly --webroot -w /var/www/certbot -d ${ETNA_HOST} --email tua@email.com --agree-tos --non-interactive
+
+# Ferma il container di validazione
+docker-compose stop nginx-challenge</code></pre>
+                </div>
+            </div>
+
+            <!-- Step 4: Avvia i Servizi Principali -->
+            <div class="flex items-start gap-6">
+                <div class="step-number">4</div>
+                <div>
+                    <h3 class="text-2xl font-bold text-slate-100 mb-2">Avvia tutti i Servizi Principali</h3>
+                    <p class="text-slate-300 mb-4">Questo comando avvierà il servizio <code class="inline-code">etna-service</code>, il proxy <code class="inline-code">nginx</code> per il traffico HTTPS e il container <code class="inline-code">certbot</code> per il rinnovo automatico dei certificati.</p>
+                    <pre class="code-block"><code>docker-compose up -d nginx certbot etna-service</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Fatto! -->
+        <section id="done" class="content-section text-center">
+            <h2 class="text-5xl font-bold text-white">🎉 Fatto!</h2>
+            <p class="mt-4 text-lg max-w-3xl mx-auto text-slate-300">
+                Il tuo sistema di monitoraggio è ora attivo. Lo scheduler eseguirà le analisi secondo la pianificazione e potrai interagire con il bot tramite i comandi <code class="inline-code">/report</code>, <code class="inline-code">/status</code>, <code class="inline-code">/polar</code> e <code class="inline-code">/menu</code>.
+            </p>
+        </section>
+
+    </main>
+
+    <footer class="text-center py-8 border-t border-slate-800 mt-16">
+        <p class="text-slate-500">Progetto Etna - Un esperimento di monitoraggio vulcanico.</p>
+        <p class="text-slate-600 text-sm mt-2">Copyright © 2024 Giovanni Novelli. Tutti i diritti riservati. Il codice sorgente è privato.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('main > section');
+
+            function updateActiveSection() {
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    if (window.scrollY >= sectionTop - 150) {
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === `#${current}`) {
+                        link.classList.add('active');
+                    }
+                });
+            }
+            
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const targetId = link.getAttribute('href');
+                    document.querySelector(targetId).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+
+            window.addEventListener('scroll', updateActiveSection);
+            updateActiveSection();
+        });
+    </script>
+</body>
+</html>
