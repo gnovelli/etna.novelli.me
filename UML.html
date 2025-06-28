@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="it" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diagrammi UML - Progetto Etna</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .nav-link.active {
+            color: #38bdf8; /* sky-400 */
+        }
+        .diagram-container {
+            background-color: #1e293b; /* slate-800 */
+            border: 1px solid #334155; /* slate-700 */
+            border-radius: 0.75rem;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+        .diagram-container img {
+            max-width: 100%;
+            height: auto;
+            background-color: white;
+            padding: 1rem;
+            border-radius: 0.5rem;
+        }
+        .content-section {
+            padding-top: 6rem;
+            margin-top: -4rem;
+        }
+    </style>
+</head>
+<body class="bg-slate-900 text-slate-300">
+
+    <!-- Header & Nav -->
+    <header class="sticky top-0 bg-slate-900/80 backdrop-blur-lg z-50 border-b border-slate-800">
+        <nav class="container mx-auto px-4">
+            <div class="flex items-center justify-between h-20">
+                <a href="index.html" class="text-2xl font-bold text-white">Progetto Etna</a>
+                <div class="hidden md:flex items-center space-x-6">
+                    <a href="#package-diagram" class="nav-link text-slate-300 hover:text-white transition-colors">Package</a>
+                    <a href="#sequence-cli" class="nav-link text-slate-300 hover:text-white transition-colors">Sequenza CLI</a>
+                    <a href="#sequence-scheduler" class="nav-link text-slate-300 hover:text-white transition-colors">Sequenza Scheduler</a>
+                </div>
+            </div>
+        </nav>
+        <!-- Secondary Documentation Links -->
+        <div class="border-t border-slate-800 bg-slate-900/50">
+             <div class="container mx-auto px-4 flex justify-center items-center h-12">
+                <div class="flex items-center space-x-6 text-sm font-medium">
+                    <a href="README.html" class="text-slate-400 hover:text-sky-400 transition-colors">README</a>
+                    <a href="UML.html" class="text-sky-400 font-bold">UML</a>
+                    <a href="QUICKSTART.html" class="text-slate-400 hover:text-sky-400 transition-colors">Quick Start</a>
+                    <a href="API_TUTORIAL.html" class="text-slate-400 hover:text-sky-400 transition-colors">API Tutorial</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-12">
+
+        <!-- Titolo -->
+        <section class="text-center pt-12">
+            <h1 class="text-5xl font-bold text-white">Diagrammi UML</h1>
+            <p class="mt-4 text-lg max-w-3xl mx-auto text-slate-300">
+                Questa sezione documenta l'architettura del progetto tramite diagrammi UML che illustrano le relazioni tra i componenti e i flussi di interazione principali.
+            </p>
+        </section>
+
+        <!-- Package Diagram -->
+        <section id="package-diagram" class="content-section space-y-8">
+            <h2 class="text-3xl font-bold text-white border-b border-slate-700 pb-4">Diagramma dei Package</h2>
+            <p class="text-lg text-slate-300">
+                Questo diagramma mostra le dipendenze tra i principali moduli (package) del pacchetto <code class="inline-code bg-slate-700 text-slate-200 p-1 rounded">etna</code>. Evidenzia come i componenti dell'interfaccia (CLI, API, Scheduler) interagiscono con i moduli di elaborazione dati, reporting e monitoraggio.
+            </p>
+            <div class="diagram-container">
+                <img src="https://www.plantuml.com/plantuml/svg/ZP7F3e8m38VlFCN2dJs2uJq88NMhiBX_wOe7ZU_kK1EKOU9XX_Rx-alJjOc1U7QsYg3ECAAeaJtKubO9qIbhUj4q1z5fO90dP3Nrto1IK9YIyQCabuQr_Et5O87C5TW4lx48Oo0kfnajZWHEpcniUi9LVIdeZgXrhZDUU58JwjaYlVaIjjTtmHiEj2m6kSjfrzgcbrEbbpM8HkOt9AHBiSak_2VWuqhtgaMly_yz00==" alt="Diagramma dei Package del Progetto Etna">
+            </div>
+        </section>
+
+        <!-- Sequence Diagram - CLI -->
+        <section id="sequence-cli" class="content-section space-y-8">
+            <h2 class="text-3xl font-bold text-white border-b border-slate-700 pb-4">Diagramma di Sequenza – Flusso Principale (CLI)</h2>
+            <p class="text-lg text-slate-300">
+                Illustra la sequenza di operazioni eseguite quando viene invocato il comando principale <code class="inline-code bg-slate-700 text-slate-200 p-1 rounded">etna.cli.main()</code>. Il flusso parte dall'acquisizione dati, procede con l'elaborazione (RMS, polarizzazione), la generazione del report (con supporto LLM) e termina con l'invio opzionale delle notifiche su Telegram.
+            </p>
+            <div class="diagram-container">
+                <img src="https://www.plantuml.com/plantuml/svg/LP6nJiGm343tVaN6TW3s6z19J4XiC9uKcTHD8pbEvJZ3yVMuj7SzjkJPVdQSSrKGRPaw25h4VOOPnqOetVtadbxTsyUxExaCYVkXMo_69jGm6yMg0ibBhhwYQih0GEWJ1y6Ch7OvYjQiHKh0MXD7guOO1ICe_WdcqeIk_N3XWoEZnEizT3CjXK3I3sWgR1vfx1_HGqjSYkZMBQ9wecp3ASeYg7lkPHrsRRQCazyAJ02axWi9eq1soF1DE7RExLxT8yzD4rMJL-JHtwXVvgAb7rx-qx64jYx5xCQt4SrrBDjUWjg4NP2aAG2vYI1sPyksN_e5" alt="Diagramma di Sequenza del flusso CLI">
+            </div>
+        </section>
+
+        <!-- Sequence Diagram - Scheduler -->
+        <section id="sequence-scheduler" class="content-section space-y-8">
+            <h2 class="text-3xl font-bold text-white border-b border-slate-700 pb-4">Diagramma di Sequenza – Scheduler</h2>
+            <p class="text-lg text-slate-300">
+                Descrive il comportamento dello scheduler. Un utente può avviare il processo o richiedere un report manualmente. Lo scheduler esegue i task di analisi a intervalli regolari (es. ogni ora). Se durante l'analisi viene rilevata una condizione di criticità, lo scheduler può aumentare la frequenza delle esecuzioni (es. ogni 20 minuti) per un monitoraggio più intensivo.
+            </p>
+            <div class="diagram-container">
+                <img src="https://www.plantuml.com/plantuml/svg/ZP0x2y9048Jx_HLRca8YbXOIIHKGBSHA91oNXHpSG_OkXlnxDuVW0mIRXMM-sHcsYabn6fm5fLDWF4TYc0SkjtZIFNM3bMM3PGPHa9Bf5ZZ1InLq5oUlc-Ex8niMnITNxnkHd39-KU2b3mFRwGhA9gpP9AELnT7uBeo0cVrgqUQZhNwohGiTIGJYxn2w4q-uNZdZWMmaF0Hs4ZDR_p3E5O5y1vKC-TC3" alt="Diagramma di Sequenza dello Scheduler">
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="text-center py-8 border-t border-slate-800 mt-16">
+        <p class="text-slate-500">Progetto Etna - Un esperimento di monitoraggio vulcanico.</p>
+        <p class="text-slate-600 text-sm mt-2">Copyright © 2024 Giovanni Novelli. Tutti i diritti riservati. Il codice sorgente è privato.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('main > section');
+
+            function updateActiveSection() {
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    if (window.scrollY >= sectionTop - 150) {
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === `#${current}`) {
+                        link.classList.add('active');
+                    }
+                });
+            }
+            
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const targetId = link.getAttribute('href');
+                    document.querySelector(targetId).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+
+            window.addEventListener('scroll', updateActiveSection);
+            updateActiveSection();
+        });
+    </script>
+</body>
+</html>
