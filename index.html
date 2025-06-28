@@ -3,50 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Progetto ETNA - Report Interattivo</title>
+    <title>Progetto Etna - Monitoraggio Vulcanico Open Source</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
-    <!-- Chosen Palette: Etna Stone & Sky -->
-    <!-- Application Structure Plan: Ho progettato una Single-Page Application (SPA) con una barra di navigazione laterale fissa e sezioni di contenuto scrollabili. Questa struttura è stata scelta per trasformare un report testuale in un'esperienza esplorabile e non lineare. L'utente può navigare facilmente tra i temi principali (Panoramica, Architettura, Tecnologie, etc.) senza perdere il contesto. Il fulcro interattivo è il diagramma dell'architettura, che permette di approfondire ogni componente con un clic, rendendo l'informazione più accessibile e coinvolgente rispetto a un diagramma statico. Questo approccio favorisce la comprensione e l'engagement dell'utente. -->
-    <!-- Visualization & Content Choices: 
-        - Panoramica: Testo (Introduzione e Conclusioni) presentato in un layout pulito per informare, con un disclaimer prominente.
-        - Architettura: Diagramma organizzativo dettagliato (realizzato con HTML/CSS Flexbox) per mostrare il flusso dei dati attraverso i moduli specifici della codebase. L'interazione (click su un componente) mostra testo di approfondimento e un grafico di esempio, con lo scopo di spiegare e illustrare.
-        - Grafico Esempio: Un grafico a linee (Chart.js su Canvas) con dati fittizi viene mostrato per rappresentare il tipo di output del sistema (es. SSAM), con l'obiettivo di illustrare concretamente un concetto astratto.
-        - UML: Diagrammi UML (Componenti, Casi d'Uso, Sequenza) resi interattivi con HTML/CSS e JS per illustrare la struttura software.
-        - Visione Futura & Riflessioni: Roadmap visuale (HTML/CSS), diagramma di integrazione e testo argomentativo per illustrare il potenziale e le future direzioni del progetto, contestualizzandolo nell'ecosistema esistente.
-        - Sviluppo & CI/CD: Visualizzazione della pipeline di deployment basata sul file `deploy.yml`.
-        - Quick Start: Guida rapida basata su `QUICKSTART-IT.md`.
-        - Tecnologie e Funzionalità: Griglie di card (HTML/CSS) per presentare le informazioni in modo schematico e visivamente gradevole (Obiettivo: Informare).
-        - Autore e Contributi: Sezioni testuali per fornire informazioni complete, con link ai file .md pertinenti e a profili esterni.
-        - Giustificazione: Questa combinazione di elementi trasforma il report da documento statico a strumento interattivo, guidando l'utente attraverso i concetti chiave in modo strutturato ma flessibile. -->
-    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f8fafc; /* slate-50 */
-            color: #334155; /* slate-700 */
-        }
-        .nav-link {
-            transition: all 0.2s ease-in-out;
         }
         .nav-link.active {
-            background-color: #0ea5e9; /* sky-500 */
-            color: white;
-            transform: translateX(4px);
+            color: #38bdf8; /* sky-400 */
         }
         .arch-component {
             transition: all 0.2s ease-in-out;
             cursor: pointer;
-            border: 1px solid #cbd5e1; /* slate-300 */
         }
         .arch-component.active, .arch-component:hover {
-            border-color: #0ea5e9; /* sky-500 */
-            background-color: #f0f9ff; /* sky-50 */
             transform: translateY(-2px);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            background-color: #1e293b; /* slate-800 */
+            border-color: #0ea5e9; /* sky-500 */
         }
         .chart-container {
             position: relative;
@@ -63,8 +40,8 @@
         }
         .uml-tab.active {
             border-color: #0ea5e9;
-            background-color: #f0f9ff;
-            color: #0284c7;
+            background-color: #1e293b;
+            color: #e0f2fe;
         }
         .uml-content {
             display: none;
@@ -73,150 +50,152 @@
             display: block;
         }
         .code-block {
-            background-color: #1e293b;
+            background-color: #0f172a; /* slate-900 */
             color: #e2e8f0;
             padding: 1rem;
             border-radius: 0.5rem;
             font-family: 'Courier New', Courier, monospace;
             font-size: 0.875rem;
             overflow-x: auto;
+            border: 1px solid #334155;
         }
     </style>
 </head>
-<body class="flex flex-col md:flex-row">
+<body class="bg-slate-900 text-slate-200">
 
-    <nav class="w-full md:w-64 bg-white border-b md:border-r border-slate-200 flex-shrink-0">
-        <div class="p-6 flex justify-between items-start">
-            <div>
-                <h1 class="text-2xl font-bold text-slate-800">Progetto ETNA</h1>
-                <p class="text-sm text-slate-500">Report Interattivo</p>
-            </div>
-            <a href="https://github.com/gnovelli/etna" target="_blank" title="Vedi il progetto su GitHub" class="text-slate-400 hover:text-sky-600 transition-colors">
-                <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.168 6.839 9.492.5.092.682-.217.682-.482 0-.237-.009-.868-.014-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.031-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.203 2.398.1 2.651.64.7 1.03 1.595 1.03 2.688 0 3.848-2.338 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.001 10.001 0 0022 12c0-5.523-4.477-10-10-10z" clip-rule="evenodd" /></svg>
-            </a>
-        </div>
-        <ul class="flex flex-row md:flex-col p-3 md:p-6 space-x-2 md:space-x-0 md:space-y-2 overflow-x-auto">
-            <li><a href="#panoramica" class="nav-link flex items-center p-3 rounded-lg text-slate-600 font-medium">Panoramica</a></li>
-            <li><a href="#quickstart" class="nav-link flex items-center p-3 rounded-lg text-slate-600 font-medium">Quick Start</a></li>
-            <li><a href="#architettura" class="nav-link flex items-center p-3 rounded-lg text-slate-600 font-medium">Architettura</a></li>
-            <li><a href="#uml" class="nav-link flex items-center p-3 rounded-lg text-slate-600 font-medium">Diagrammi UML</a></li>
-            <li><a href="#sviluppo" class="nav-link flex items-center p-3 rounded-lg text-slate-600 font-medium">Sviluppo & CI/CD</a></li>
-            <li><a href="#visione" class="nav-link flex items-center p-3 rounded-lg text-slate-600 font-medium">Visione Futura</a></li>
-            <li><a href="#riflessioni" class="nav-link flex items-center p-3 rounded-lg text-slate-600 font-medium">Riflessioni</a></li>
-            <li><a href="#tecnologie" class="nav-link flex items-center p-3 rounded-lg text-slate-600 font-medium">Tecnologie</a></li>
-            <li><a href="#funzionalita" class="nav-link flex items-center p-3 rounded-lg text-slate-600 font-medium">Funzionalità</a></li>
-            <li><a href="#autore" class="nav-link flex items-center p-3 rounded-lg text-slate-600 font-medium">Autore</a></li>
-            <li><a href="#contribuisci" class="nav-link flex items-center p-3 rounded-lg text-slate-600 font-medium">Contribuisci</a></li>
-        </ul>
-    </nav>
-
-    <main class="flex-1 p-6 sm:p-8 lg:p-12 overflow-y-auto">
-        <div id="panoramica" class="space-y-8">
-            <h2 class="text-3xl font-bold text-slate-800 border-b pb-4">Panoramica del Progetto</h2>
-            
-            <div class="bg-yellow-50 border-l-4 border-yellow-400 text-yellow-800 p-4 rounded-r-lg" role="alert">
-                <p class="font-bold">Disclaimer</p>
-                <p>Questo software è un prototipo sperimentale. Ogni tipo di deduzione tratta da esso non è adatta ad un sistema di produzione. L'autore ne sconsiglia una sua adozione senza una previa e approfondita valutazione. Può essere liberamente utilizzato come piattaforma di studio a fini personali o di ricerca.</p>
-            </div>
-
-            <p class="text-lg text-slate-600">Questa sezione fornisce una visione d'insieme del progetto ETNA, descrivendone gli scopi, gli obiettivi e le conclusioni principali. È il punto di partenza ideale per comprendere la visione e l'impatto potenziale di questo sistema di monitoraggio.</p>
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
-                    <h3 class="text-2xl font-bold text-sky-600 mb-4">Un Esperimento di Progettazione</h3>
-                    <p class="text-slate-600 leading-relaxed">Il progetto ETNA va inteso come un esperimento di progettazione, sviluppo e deployment. Il suo scopo è esplorare l'integrazione della cosiddetta intelligenza artificiale sia nel ciclo di sviluppo software (DevOps) sia nel ciclo di vita del prodotto finale. La piattaforma risultante espone componenti di IA (come modelli di anomaly detection e LLM per il reporting) e si rende a sua volta disponibile tramite API per alimentare ulteriori sistemi di elaborazione, consentendo nuovi livelli di astrazione e deduzione.</p>
+    <!-- Header & Nav -->
+    <header class="sticky top-0 bg-slate-900/80 backdrop-blur-lg z-50 border-b border-slate-800">
+        <nav class="container mx-auto px-4">
+            <div class="flex items-center justify-between h-20">
+                <div class="text-2xl font-bold text-white">Progetto Etna</div>
+                <div class="hidden md:flex items-center space-x-6">
+                    <a href="#panoramica" class="nav-link text-slate-300 hover:text-white transition-colors">Panoramica</a>
+                    <a href="#architettura" class="nav-link text-slate-300 hover:text-white transition-colors">Architettura</a>
+                    <a href="#visione" class="nav-link text-slate-300 hover:text-white transition-colors">Visione Futura</a>
+                    <a href="#autore" class="nav-link text-slate-300 hover:text-white transition-colors">Autore</a>
+                    <a href="https://github.com/gnovelli/etna" target="_blank" rel="noopener noreferrer" class="text-slate-400 hover:text-white transition-colors">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.168 6.839 9.492.5.092.682-.217.682-.482 0-.237-.009-.868-.014-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.031-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.203 2.398.1 2.651.64.7 1.03 1.595 1.03 2.688 0 3.848-2.338 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.001 10.001 0 0022 12c0-5.523-4.477-10-10-10z" clip-rule="evenodd" /></svg>
+                    </a>
                 </div>
-                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
-                    <h3 class="text-2xl font-bold text-sky-600 mb-4">Conclusioni</h3>
-                    <p class="text-slate-600 leading-relaxed">ETNA si propone come uno strumento per il monitoraggio vulcanico, che prova a combinare tecniche geofisiche con approcci di intelligenza artificiale. I suoi aspetti caratterizzanti sono l'integrazione tra analisi dati e machine learning, l'automazione dei processi, l'accessibilità tramite dashboard web e l'esplorazione di approcci innovativi come l'uso di agenti LLM per il reporting. L'obiettivo finale è contribuire a migliorare l'efficacia del monitoraggio vulcanico.</p>
-                </div>
+                <!-- Mobile menu button can be added here if needed -->
             </div>
-        </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-4 py-12">
+
+        <!-- Sezione Panoramica -->
+        <section id="panoramica" class="pt-16 text-center">
+            <h1 class="text-5xl font-bold text-white">Progetto Etna</h1>
+            <p class="mt-4 text-lg max-w-3xl mx-auto text-slate-300">
+                Un framework open source per esplorare il monitoraggio vulcanico in tempo reale, l'analisi e l'allertamento, basato su dati pubblici e software libero.
+            </p>
         
-        <div id="quickstart" class="space-y-8">
-            <h2 class="text-3xl font-bold text-slate-800 border-b pb-4">Quick Start Guide</h2>
-            <p class="text-lg text-slate-600">Questa guida fornisce i passaggi essenziali per avviare il progetto ETNA in un ambiente locale. Per istruzioni più dettagliate, fare riferimento al file <code class="text-sm font-bold text-sky-600">QUICKSTART-IT.md</code> nel repository.</p>
-            <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 space-y-6">
+            <div class="mt-10 max-w-3xl mx-auto bg-yellow-900/20 border border-yellow-500/50 rounded-lg p-6 shadow-lg text-left">
+                <h3 class="text-xl font-bold text-yellow-300 mb-3">⚠️ Disclaimer Importante</h3>
+                <p class="text-yellow-200 leading-relaxed">
+                    <strong>Etna è un software sperimentale, valido principalmente a fini di ricerca nell'ambito dell'ingegneria del software e delle tecnologie di cosiddetta intelligenza artificiale.</strong>
+                    <br><br>
+                    I dati e le analisi prodotte sono il risultato di elaborazioni automatiche e <strong>non sono validati da personale esperto</strong>. Questo strumento non è in alcun modo pensato per prendere decisioni critiche o per la sicurezza personale. Per tali finalità, si rimanda sempre e comunque alle fonti ufficiali ed autoritative come l'<strong>Istituto Nazionale di Geofisica e Vulcanologia (INGV)</strong> e il <strong>Dipartimento della Protezione Civile</strong>.
+                    <br><br>
+                    Il software è disponibile "as is" sul repository come opera dell'ingegno. Per un suo uso effettivo o per un suo ulteriore sviluppo, l'autore è contattabile attraverso i recapiti presenti nell'apposita sezione.
+                </p>
+            </div>
+
+            <div class="mt-12 grid grid-cols-1 lg:grid-cols-2 gap-8 text-left">
+                <div class="bg-slate-800/50 p-6 rounded-xl shadow-lg border border-slate-700">
+                    <h3 class="text-2xl font-bold text-sky-400 mb-4">Un Esperimento di Progettazione</h3>
+                    <p class="text-slate-300 leading-relaxed">Il progetto ETNA va inteso come un esperimento di progettazione, sviluppo e deployment. Il suo scopo è esplorare l'integrazione della cosiddetta intelligenza artificiale sia nel ciclo di sviluppo software (DevOps) sia nel ciclo di vita del prodotto finale. La piattaforma risultante espone componenti di IA (come modelli di anomaly detection e LLM per il reporting) e si rende a sua volta disponibile tramite API per alimentare ulteriori sistemi di elaborazione, consentendo nuovi livelli di astrazione e deduzione.</p>
+                </div>
+                <div class="bg-slate-800/50 p-6 rounded-xl shadow-lg border border-slate-700">
+                    <h3 class="text-2xl font-bold text-sky-400 mb-4">Conclusioni</h3>
+                    <p class="text-slate-300 leading-relaxed">ETNA si propone come uno strumento per il monitoraggio vulcanico, che prova a combinare tecniche geofisiche con approcci di intelligenza artificiale. I suoi aspetti caratterizzanti sono l'integrazione tra analisi dati e machine learning, l'automazione dei processi, l'accessibilità tramite dashboard web e l'esplorazione di approcci innovativi come l'uso di agenti LLM per il reporting. L'obiettivo finale è contribuire a migliorare l'efficacia del monitoraggio vulcanico.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sezione Quick Start -->
+        <section id="quickstart" class="pt-24 space-y-8">
+            <h2 class="text-3xl font-bold text-white border-b border-slate-700 pb-4">Quick Start Guide</h2>
+            <p class="text-lg text-slate-300">Questa guida fornisce i passaggi essenziali per avviare il progetto ETNA in un ambiente locale. Per istruzioni più dettagliate, fare riferimento al file <code class="text-sm font-bold text-sky-400">QUICKSTART-IT.md</code> nel repository.</p>
+            <div class="bg-slate-800/50 p-6 rounded-xl shadow-lg border border-slate-700 space-y-6">
                 <div>
-                    <h3 class="text-xl font-bold text-slate-700 mb-2">1. Prerequisiti</h3>
-                    <p class="text-slate-600">Assicurarsi di avere installato <span class="font-semibold">Docker</span> e <span class="font-semibold">Docker Compose</span> sul proprio sistema.</p>
+                    <h3 class="text-xl font-bold text-slate-100 mb-2">1. Prerequisiti</h3>
+                    <p class="text-slate-300">Assicurarsi di avere installato <span class="font-semibold text-white">Docker</span> e <span class="font-semibold text-white">Docker Compose</span> sul proprio sistema.</p>
                 </div>
                 <div>
-                    <h3 class="text-xl font-bold text-slate-700 mb-2">2. Clonare il Repository</h3>
-                    <p class="text-slate-600 mb-2">Ottenere una copia locale del codice sorgente.</p>
+                    <h3 class="text-xl font-bold text-slate-100 mb-2">2. Clonare il Repository</h3>
+                    <p class="text-slate-300 mb-2">Ottenere una copia locale del codice sorgente.</p>
                     <pre class="code-block"><code>git clone https://github.com/gnovelli/etna.git
 cd etna</code></pre>
                 </div>
                 <div>
-                    <h3 class="text-xl font-bold text-slate-700 mb-2">3. Configurazione</h3>
-                    <p class="text-slate-600 mb-2">Creare un file <code class="text-sm bg-slate-200 p-1 rounded">.env</code> per le variabili d'ambiente (es. token di Telegram) e, se necessario, personalizzare il file <code class="text-sm bg-slate-200 p-1 rounded">config/stations.yaml</code> per definire le stazioni di monitoraggio.</p>
+                    <h3 class="text-xl font-bold text-slate-100 mb-2">3. Configurazione</h3>
+                    <p class="text-slate-300 mb-2">Creare un file <code class="text-sm bg-slate-700 p-1 rounded">.env</code> per le variabili d'ambiente (es. token di Telegram) e, se necessario, personalizzare il file <code class="text-sm bg-slate-700 p-1 rounded">config/stations.yaml</code> per definire le stazioni di monitoraggio.</p>
                 </div>
                 <div>
-                    <h3 class="text-xl font-bold text-slate-700 mb-2">4. Avviare i Servizi</h3>
-                    <p class="text-slate-600 mb-2">Lanciare l'intera architettura con un singolo comando.</p>
+                    <h3 class="text-xl font-bold text-slate-100 mb-2">4. Avviare i Servizi</h3>
+                    <p class="text-slate-300 mb-2">Lanciare l'intera architettura con un singolo comando.</p>
                     <pre class="code-block"><code>docker-compose up -d</code></pre>
-                    <p class="text-slate-600 mt-2">Dopo l'avvio, la dashboard sarà accessibile all'indirizzo <a href="http://localhost:8501" class="text-sky-600 hover:underline">http://localhost:8501</a>.</p>
+                    <p class="text-slate-300 mt-2">Dopo l'avvio, la dashboard sarà accessibile all'indirizzo <a href="http://localhost:8501" target="_blank" class="text-sky-400 hover:underline">http://localhost:8501</a>.</p>
                 </div>
             </div>
-        </div>
+        </section>
 
-        <div id="architettura" class="space-y-8">
-            <h2 class="text-3xl font-bold text-slate-800 border-b pb-4">Architettura Dettagliata</h2>
-            <p class="text-lg text-slate-600">L'architettura del sistema ETNA è modulare e segue un flusso di elaborazione dati ben definito. Questa sezione permette di esplorare interattivamente i moduli specifici della codebase. Clicchi su un blocco per visualizzarne la descrizione e capire il suo ruolo nel processo.</p>
+        <!-- Sezione Architettura -->
+        <section id="architettura" class="pt-24 space-y-8">
+            <h2 class="text-3xl font-bold text-white border-b border-slate-700 pb-4">Architettura Dettagliata</h2>
+            <p class="text-lg text-slate-300">L'architettura del sistema ETNA è modulare e segue un flusso di elaborazione dati ben definito. Cliccare su un blocco per visualizzarne la descrizione e capire il suo ruolo nel processo.</p>
             
-            <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+            <div class="bg-slate-800/50 p-6 rounded-xl shadow-lg border border-slate-700">
                 <div class="flex flex-col xl:flex-row gap-6">
                     <div class="xl:w-3/4 space-y-4">
-                        <div data-target="scheduler" class="arch-component p-3 text-center rounded-lg shadow-sm bg-amber-100 border-amber-300">
+                        <div data-target="scheduler" class="arch-component p-3 text-center rounded-lg shadow-sm bg-amber-600/20 border border-amber-500">
                             <h4 class="font-bold">Orchestrazione: Scheduler</h4>
                             <p class="text-sm">Avvia i task periodici</p>
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-5 gap-4 text-center text-xs font-medium">
-                            <!-- Colonna Fonti -->
                             <div class="space-y-2">
-                                <h3 class="font-bold text-slate-500 text-sm mb-2">Fonti Dati</h3>
-                                <div class="p-3 bg-slate-200 rounded">Reti FDSN</div>
-                                <div class="p-3 bg-slate-200 rounded">Dati Gas</div>
+                                <h3 class="font-bold text-slate-400 text-sm mb-2">Fonti Dati</h3>
+                                <div class="p-3 bg-slate-700 rounded">Reti FDSN</div>
+                                <div class="p-3 bg-slate-700 rounded">Dati Gas</div>
                             </div>
-                            <!-- Colonna Acquisizione -->
-                            <div class="flex items-center justify-center text-2xl text-slate-400">→</div>
+                            <div class="flex items-center justify-center text-2xl text-slate-500">→</div>
                             <div class="space-y-2">
-                                <h3 class="font-bold text-slate-500 text-sm mb-2">Acquisizione</h3>
-                                <div data-target="fetch" class="arch-component p-3 rounded">fetch</div>
-                                <div data-target="infrasound" class="arch-component p-3 rounded">infrasound</div>
-                                <div data-target="gas" class="arch-component p-3 rounded">gas</div>
+                                <h3 class="font-bold text-slate-400 text-sm mb-2">Acquisizione</h3>
+                                <div data-target="fetch" class="arch-component p-3 rounded border border-slate-600">fetch</div>
+                                <div data-target="infrasound" class="arch-component p-3 rounded border border-slate-600">infrasound</div>
+                                <div data-target="gas" class="arch-component p-3 rounded border border-slate-600">gas</div>
                             </div>
-                            <!-- Colonna Elaborazione -->
-                            <div class="flex items-center justify-center text-2xl text-slate-400">→</div>
+                            <div class="flex items-center justify-center text-2xl text-slate-500">→</div>
                             <div class="space-y-2">
-                                <h3 class="font-bold text-slate-500 text-sm mb-2">Elaborazione</h3>
-                                <div data-target="ssam" class="arch-component p-3 rounded">ssam</div>
-                                <div data-target="polarization" class="arch-component p-3 rounded">polarization</div>
-                                <div data-target="correlation" class="arch-component p-3 rounded">correlation</div>
-                                <div data-target="rms" class="arch-component p-3 rounded">rms_processing</div>
+                                <h3 class="font-bold text-slate-400 text-sm mb-2">Elaborazione</h3>
+                                <div data-target="ssam" class="arch-component p-3 rounded border border-slate-600">ssam</div>
+                                <div data-target="polarization" class="arch-component p-3 rounded border border-slate-600">polarization</div>
+                                <div data-target="correlation" class="arch-component p-3 rounded border border-slate-600">correlation</div>
+                                <div data-target="rms" class="arch-component p-3 rounded border border-slate-600">rms_processing</div>
                             </div>
                         </div>
-                        <div class="flex justify-center text-2xl text-slate-400 my-2">↓</div>
+                        <div class="flex justify-center text-2xl text-slate-500 my-2">↓</div>
                          <div class="grid grid-cols-1 md:grid-cols-5 gap-4 text-center text-xs font-medium">
-                            <!-- Colonna Analisi -->
                              <div class="space-y-2 md:col-start-3">
-                                <h3 class="font-bold text-slate-500 text-sm mb-2">Analisi & Modelli</h3>
-                                <div data-target="autoencoder" class="arch-component p-3 rounded">autoencoder</div>
-                                <div data-target="embeddings" class="arch-component p-3 rounded">embeddings</div>
+                                <h3 class="font-bold text-slate-400 text-sm mb-2">Analisi & Modelli</h3>
+                                <div data-target="autoencoder" class="arch-component p-3 rounded border border-slate-600">autoencoder</div>
+                                <div data-target="embeddings" class="arch-component p-3 rounded border border-slate-600">embeddings</div>
                             </div>
-                            <!-- Colonna Output -->
-                            <div class="flex items-center justify-center text-2xl text-slate-400">→</div>
+                            <div class="flex items-center justify-center text-2xl text-slate-500">→</div>
                              <div class="space-y-2">
-                                <h3 class="font-bold text-slate-500 text-sm mb-2">Output & Delivery</h3>
-                                <div data-target="api_server" class="arch-component p-3 rounded">api_server</div>
-                                <div data-target="streamlit_app" class="arch-component p-3 rounded">streamlit_app</div>
-                                <div data-target="reporting_agent" class="arch-component p-3 rounded">reporting</div>
-                                <div data-target="alerts" class="arch-component p-3 rounded">alerts</div>
+                                <h3 class="font-bold text-slate-400 text-sm mb-2">Output & Delivery</h3>
+                                <div data-target="api_server" class="arch-component p-3 rounded border border-slate-600">api_server</div>
+                                <div data-target="streamlit_app" class="arch-component p-3 rounded border border-slate-600">streamlit_app</div>
+                                <div data-target="reporting_agent" class="arch-component p-3 rounded border border-slate-600">reporting</div>
+                                <div data-target="alerts" class="arch-component p-3 rounded border border-slate-600">alerts</div>
                             </div>
                         </div>
                     </div>
-                    <div id="arch-details" class="xl:w-1/4 p-4 bg-slate-50 rounded-lg min-h-[300px]">
-                        <h3 id="arch-title" class="text-xl font-bold text-sky-600 mb-2">Seleziona un componente</h3>
-                        <p id="arch-text" class="text-slate-600 leading-relaxed text-sm">Clicca su uno dei blocchi a sinistra per vedere i dettagli specifici del modulo.</p>
+                    <div id="arch-details" class="xl:w-1/4 p-4 bg-slate-800 rounded-lg min-h-[300px]">
+                        <h3 id="arch-title" class="text-xl font-bold text-sky-400 mb-2">Seleziona un componente</h3>
+                        <p id="arch-text" class="text-slate-300 leading-relaxed text-sm">Clicca su uno dei blocchi a sinistra per vedere i dettagli.</p>
                         <div id="chart-wrapper" class="mt-4">
                             <div class="chart-container">
                                 <canvas id="ssamChart"></canvas>
@@ -225,312 +204,315 @@ cd etna</code></pre>
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
 
-        <div id="uml" class="space-y-8">
-            <h2 class="text-3xl font-bold text-slate-800 border-b pb-4">Diagrammi UML</h2>
-            <p class="text-lg text-slate-600">Per descrivere formalmente la struttura e il comportamento del sistema, sono stati realizzati alcuni diagrammi UML. Questa sezione presenta le viste principali. Per maggiori dettagli, consultare il file <code class="text-sm font-bold text-sky-600">UML.md</code>.</p>
-            <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
-                <div class="border-b border-slate-200 mb-6">
+        <!-- Sezione UML -->
+        <section id="uml" class="pt-24 space-y-8">
+            <h2 class="text-3xl font-bold text-white border-b border-slate-700 pb-4">Diagrammi UML</h2>
+            <p class="text-lg text-slate-300">Per descrivere formalmente la struttura e il comportamento del sistema, sono stati realizzati alcuni diagrammi UML. Per maggiori dettagli, consultare il file <code class="text-sm font-bold text-sky-400">UML.md</code>.</p>
+            <div class="bg-slate-800/50 p-6 rounded-xl shadow-lg border border-slate-700">
+                <div class="border-b border-slate-700 mb-6">
                     <nav class="flex space-x-4" aria-label="Tabs">
-                        <button data-target="component-diagram" class="uml-tab active font-medium text-slate-600 px-4 py-2 rounded-t-lg border-b-2 border-transparent">Componenti</button>
-                        <button data-target="usecase-diagram" class="uml-tab font-medium text-slate-600 px-4 py-2 rounded-t-lg border-b-2 border-transparent">Casi d'Uso</button>
-                        <button data-target="sequence-diagram" class="uml-tab font-medium text-slate-600 px-4 py-2 rounded-t-lg border-b-2 border-transparent">Sequenza</button>
+                        <button data-target="component-diagram" class="uml-tab active font-medium text-slate-300 px-4 py-2 rounded-t-lg border-b-2 border-transparent">Componenti</button>
+                        <button data-target="usecase-diagram" class="uml-tab font-medium text-slate-300 px-4 py-2 rounded-t-lg border-b-2 border-transparent">Casi d'Uso</button>
+                        <button data-target="sequence-diagram" class="uml-tab font-medium text-slate-300 px-4 py-2 rounded-t-lg border-b-2 border-transparent">Sequenza</button>
                     </nav>
                 </div>
                 <div id="component-diagram" class="uml-content active p-4">
-                    <h3 class="text-xl font-bold text-slate-700 mb-4">Diagramma dei Componenti</h3>
-                    <p class="text-slate-600 mb-6">Mostra i principali componenti software del sistema e le loro interdipendenze.</p>
-                    <div class="flex flex-wrap gap-6 items-center justify-center p-4 bg-slate-50 rounded-lg">
+                    <h3 class="text-xl font-bold text-slate-100 mb-4">Diagramma dei Componenti</h3>
+                    <p class="text-slate-300 mb-6">Mostra i principali componenti software del sistema e le loro interdipendenze.</p>
+                    <div class="flex flex-wrap gap-6 items-center justify-center p-4 bg-slate-800 rounded-lg">
                         <div class="text-center">
-                            <div class="p-3 bg-sky-100 border-2 border-sky-500 rounded-lg shadow-md">etna-scheduler</div>
-                            <div class="mt-2 text-slate-500 text-sm">Orchestra i task</div>
+                            <div class="p-3 bg-sky-900/50 border-2 border-sky-500 rounded-lg shadow-md">etna-scheduler</div>
+                            <div class="mt-2 text-slate-400 text-sm">Orchestra i task</div>
                         </div>
-                        <div class="text-2xl text-slate-400">→</div>
+                        <div class="text-2xl text-slate-500">→</div>
                         <div class="text-center">
-                            <div class="p-3 bg-sky-100 border-2 border-sky-500 rounded-lg shadow-md">etna-api</div>
-                             <div class="mt-2 text-slate-500 text-sm">Fornisce i dati</div>
+                            <div class="p-3 bg-sky-900/50 border-2 border-sky-500 rounded-lg shadow-md">etna-api</div>
+                             <div class="mt-2 text-slate-400 text-sm">Fornisce i dati</div>
                         </div>
-                        <div class="text-2xl text-slate-400">→</div>
+                        <div class="text-2xl text-slate-500">→</div>
                          <div class="text-center">
-                            <div class="p-3 bg-sky-100 border-2 border-sky-500 rounded-lg shadow-md">etna-app</div>
-                             <div class="mt-2 text-slate-500 text-sm">Dashboard</div>
+                            <div class="p-3 bg-sky-900/50 border-2 border-sky-500 rounded-lg shadow-md">etna-app</div>
+                             <div class="mt-2 text-slate-400 text-sm">Dashboard</div>
                         </div>
                          <div class="text-center">
-                            <div class="p-3 bg-sky-100 border-2 border-sky-500 rounded-lg shadow-md">ollama</div>
-                             <div class="mt-2 text-slate-500 text-sm">Servizio LLM</div>
+                            <div class="p-3 bg-sky-900/50 border-2 border-sky-500 rounded-lg shadow-md">ollama</div>
+                             <div class="mt-2 text-slate-400 text-sm">Servizio LLM</div>
                         </div>
                     </div>
                 </div>
                 <div id="usecase-diagram" class="uml-content p-4">
-                    <h3 class="text-xl font-bold text-slate-700 mb-4">Diagramma dei Casi d'Uso</h3>
-                    <p class="text-slate-600 mb-6">Descrive le interazioni principali tra l'attore (Vulcanologo) e il sistema.</p>
-                     <div class="flex flex-wrap gap-8 items-center justify-center p-4 bg-slate-50 rounded-lg">
+                    <h3 class="text-xl font-bold text-slate-100 mb-4">Diagramma dei Casi d'Uso</h3>
+                    <p class="text-slate-300 mb-6">Descrive le interazioni principali tra l'attore (Vulcanologo) e il sistema.</p>
+                     <div class="flex flex-wrap gap-8 items-center justify-center p-4 bg-slate-800 rounded-lg">
                         <div class="text-center">
                             <div class="text-5xl">🧑‍🔬</div>
                             <div class="font-bold mt-2">Vulcanologo</div>
                         </div>
                         <div class="flex flex-col space-y-4">
-                            <div class="p-3 bg-amber-100 border-2 border-amber-500 rounded-full shadow-sm">Visualizza Dati</div>
-                            <div class="p-3 bg-amber-100 border-2 border-amber-500 rounded-full shadow-sm">Genera Report</div>
-                            <div class="p-3 bg-amber-100 border-2 border-amber-500 rounded-full shadow-sm">Ricevi Notifiche</div>
+                            <div class="p-3 bg-amber-900/50 border-2 border-amber-500 rounded-full shadow-sm">Visualizza Dati</div>
+                            <div class="p-3 bg-amber-900/50 border-2 border-amber-500 rounded-full shadow-sm">Genera Report</div>
+                            <div class="p-3 bg-amber-900/50 border-2 border-amber-500 rounded-full shadow-sm">Ricevi Notifiche</div>
                         </div>
                     </div>
                 </div>
                 <div id="sequence-diagram" class="uml-content p-4">
-                    <h3 class="text-xl font-bold text-slate-700 mb-4">Diagramma di Sequenza (Generazione Report)</h3>
-                    <p class="text-slate-600 mb-6">Illustra la sequenza di chiamate tra i componenti per generare un report giornaliero.</p>
-                    <div class="space-y-4 p-4 bg-slate-50 rounded-lg">
+                    <h3 class="text-xl font-bold text-slate-100 mb-4">Diagramma di Sequenza (Generazione Report)</h3>
+                    <p class="text-slate-300 mb-6">Illustra la sequenza di chiamate tra i componenti per generare un report giornaliero.</p>
+                    <div class="space-y-4 p-4 bg-slate-800 rounded-lg">
                         <div class="flex items-center gap-4">
                             <div class="w-1/4 font-bold text-right">Scheduler</div>
-                            <div class="flex-1 border-b-2 border-sky-500 border-dashed text-center text-sm text-sky-600">1. triggerReport() →</div>
+                            <div class="flex-1 border-b-2 border-sky-500 border-dashed text-center text-sm text-sky-400">1. triggerReport() →</div>
                             <div class="w-1/4 font-bold text-left">ReportingAgent</div>
                         </div>
                          <div class="flex items-center gap-4">
                             <div class="w-1/4"></div>
-                            <div class="flex-1 border-b-2 border-sky-500 border-dashed text-center text-sm text-sky-600">2. getData() →</div>
+                            <div class="flex-1 border-b-2 border-sky-500 border-dashed text-center text-sm text-sky-400">2. getData() →</div>
                             <div class="w-1/4 font-bold text-left">API</div>
                         </div>
                         <div class="flex items-center gap-4">
                             <div class="w-1/4 font-bold text-right">ReportingAgent</div>
-                            <div class="flex-1 border-b-2 border-sky-500 border-dashed text-center text-sm text-sky-600">3. generateText() →</div>
+                            <div class="flex-1 border-b-2 border-sky-500 border-dashed text-center text-sm text-sky-400">3. generateText() →</div>
                             <div class="w-1/4 font-bold text-left">Ollama</div>
                         </div>
                          <div class="flex items-center gap-4">
                             <div class="w-1/4 font-bold text-right">ReportingAgent</div>
-                            <div class="flex-1 border-b-2 border-sky-500 border-dashed text-center text-sm text-sky-600">4. sendAlert() →</div>
+                            <div class="flex-1 border-b-2 border-sky-500 border-dashed text-center text-sm text-sky-400">4. sendAlert() →</div>
                             <div class="w-1/4 font-bold text-left">Telegram</div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        
-        <div id="sviluppo" class="space-y-8">
-            <h2 class="text-3xl font-bold text-slate-800 border-b pb-4">Sviluppo & CI/CD</h2>
-            <p class="text-lg text-slate-600">Il progetto adotta pratiche di sviluppo moderne, con un flusso di Integrazione e Deployment Continuo (CI/CD) automatizzato tramite GitHub Actions. Questo garantisce che ogni modifica al codice venga testata e rilasciata in modo efficiente e affidabile.</p>
-            <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
-                <h3 class="text-xl font-bold text-slate-700 mb-4">Pipeline di Deployment</h3>
-                <p class="text-slate-600 mb-6">Il workflow, definito nel file <code class="text-sm font-bold text-sky-600">.github/workflows/deploy.yml</code>, si attiva ad ogni push sul branch `main` e segue questi passaggi:</p>
+        </section>
+
+        <!-- Sezione Sviluppo & CI/CD -->
+        <section id="sviluppo" class="pt-24 space-y-8">
+            <h2 class="text-3xl font-bold text-white border-b border-slate-700 pb-4">Sviluppo & CI/CD</h2>
+            <p class="text-lg text-slate-300">Il progetto adotta pratiche di sviluppo moderne, con un flusso di Integrazione e Deployment Continuo (CI/CD) automatizzato tramite GitHub Actions. Questo garantisce che ogni modifica al codice venga testata e rilasciata in modo efficiente e affidabile.</p>
+            <div class="bg-slate-800/50 p-6 rounded-xl shadow-lg border border-slate-700">
+                <h3 class="text-xl font-bold text-slate-100 mb-4">Pipeline di Deployment</h3>
+                <p class="text-slate-300 mb-6">Il workflow, definito nel file <code class="text-sm font-bold text-sky-400">.github/workflows/deploy.yml</code>, si attiva ad ogni push sul branch `main` e segue questi passaggi:</p>
                 <div class="flex flex-col md:flex-row items-center justify-center gap-4 text-center">
-                    <div class="p-4 bg-slate-100 rounded-lg">
+                    <div class="p-4 bg-slate-800 rounded-lg">
                         <div class="text-2xl mb-1">📤</div>
                         <div class="font-semibold">Push su Main</div>
                     </div>
-                    <div class="text-2xl text-slate-400">→</div>
-                    <div class="p-4 bg-slate-100 rounded-lg">
+                    <div class="text-2xl text-slate-500">→</div>
+                    <div class="p-4 bg-slate-800 rounded-lg">
                         <div class="text-2xl mb-1">🏃</div>
                         <div class="font-semibold">Trigger GitHub Action</div>
                     </div>
-                    <div class="text-2xl text-slate-400">→</div>
-                    <div class="p-4 bg-slate-100 rounded-lg">
+                    <div class="text-2xl text-slate-500">→</div>
+                    <div class="p-4 bg-slate-800 rounded-lg">
                         <div class="text-2xl mb-1">🐳</div>
                         <div class="font-semibold">Build & Push Docker Image</div>
                     </div>
-                    <div class="text-2xl text-slate-400">→</div>
-                    <div class="p-4 bg-slate-100 rounded-lg">
+                    <div class="text-2xl text-slate-500">→</div>
+                    <div class="p-4 bg-slate-800 rounded-lg">
                         <div class="text-2xl mb-1">🚀</div>
                         <div class="font-semibold">Deploy su Server</div>
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
 
-        <div id="visione" class="space-y-8">
-            <h2 class="text-3xl font-bold text-slate-800 border-b pb-4">Visione Futura & Roadmap</h2>
-            <p class="text-lg text-slate-600">Questo progetto è nato come uno scheletro funzionale, ma la sua ambizione è diventare uno strumento completo e adottato. Questa sezione delinea i prossimi passi e la visione a lungo termine, inclusa l'integrazione in un ecosistema software più ampio per il monitoraggio dell'Etna.</p>
-            <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 space-y-8">
+        <!-- Sezione Visione Futura -->
+        <section id="visione" class="pt-24 space-y-8">
+            <h2 class="text-3xl font-bold text-white border-b border-slate-700 pb-4">Visione Futura & Roadmap</h2>
+            <p class="text-lg text-slate-300">Questo progetto è nato come uno scheletro funzionale, ma la sua ambizione è diventare uno strumento completo e adottato. Questa sezione delinea i prossimi passi e la visione a lungo termine.</p>
+            <div class="bg-slate-800/50 p-6 rounded-xl shadow-lg border border-slate-700 space-y-8">
                 <div>
-                    <h3 class="text-xl font-bold text-slate-700 mb-4">Roadmap di Sviluppo</h3>
+                    <h3 class="text-xl font-bold text-slate-100 mb-4">Roadmap di Sviluppo</h3>
                     <div class="relative pl-8">
-                        <div class="absolute left-4 top-0 bottom-0 w-0.5 bg-slate-200"></div>
+                        <div class="absolute left-4 top-0 bottom-0 w-0.5 bg-slate-700"></div>
                         <div class="relative mb-8">
                             <div class="absolute -left-[2.1rem] top-1 w-8 h-8 bg-sky-500 text-white rounded-full flex items-center justify-center">🎯</div>
-                            <h4 class="font-bold text-sky-600">Fase 1: Consolidamento e Validazione</h4>
-                            <p class="text-slate-600">Stabilizzare l'architettura attuale, migliorare l'affidabilità dei modelli di ML e validare i risultati con dati storici e il confronto con esperti vulcanologi.</p>
+                            <h4 class="font-bold text-sky-400">Fase 1: Consolidamento e Validazione</h4>
+                            <p class="text-slate-300">Stabilizzare l'architettura attuale, migliorare l'affidabilità dei modelli di ML e validare i risultati con dati storici e il confronto con esperti vulcanologi.</p>
                         </div>
                         <div class="relative mb-8">
                             <div class="absolute -left-[2.1rem] top-1 w-8 h-8 bg-sky-500 text-white rounded-full flex items-center justify-center">📈</div>
-                            <h4 class="font-bold text-sky-600">Fase 2: Espansione Fonti Dati</h4>
-                            <p class="text-slate-600">Integrare nuove tipologie di dati: geochimici (CO₂, SO₂), deformazioni del suolo (GNSS, InSAR) e dati da telecamere termiche per una visione multi-parametrica completa.</p>
+                            <h4 class="font-bold text-sky-400">Fase 2: Espansione Fonti Dati</h4>
+                            <p class="text-slate-300">Integrare nuove tipologie di dati: geochimici (CO₂, SO₂), deformazioni del suolo (GNSS, InSAR) e dati da telecamere termiche per una visione multi-parametrica completa.</p>
                         </div>
                         <div class="relative mb-8">
                             <div class="absolute -left-[2.1rem] top-1 w-8 h-8 bg-sky-500 text-white rounded-full flex items-center justify-center">🧠</div>
-                            <h4 class="font-bold text-sky-600">Fase 3: Intelligenza Aumentata</h4>
-                            <p class="text-slate-600">Sviluppare modelli di forecasting che combinino dati multi-parametrici. Potenziare gli agenti LLM per analisi comparative e per la generazione di scenari probabilistici.</p>
+                            <h4 class="font-bold text-sky-400">Fase 3: Intelligenza Aumentata</h4>
+                            <p class="text-slate-300">Sviluppare modelli di forecasting che combinino dati multi-parametrici. Potenziare gli agenti LLM per analisi comparative e per la generazione di scenari probabilistici.</p>
                         </div>
                         <div class="relative">
                             <div class="absolute -left-[2.1rem] top-1 w-8 h-8 bg-sky-500 text-white rounded-full flex items-center justify-center">🤝</div>
-                            <h4 class="font-bold text-sky-600">Fase 4: Piattaforma Collaborativa</h4>
-                            <p class="text-slate-600">Trasformare ETNA in una piattaforma aperta dove ricercatori di diverse istituzioni possono integrare i propri modelli, condividere dati e collaborare sull'analisi dei fenomeni vulcanici.</p>
+                            <h4 class="font-bold text-sky-400">Fase 4: Piattaforma Collaborativa</h4>
+                            <p class="text-slate-300">Trasformare ETNA in una piattaforma aperta dove ricercatori di diverse istituzioni possono integrare i propri modelli, condividere dati e collaborare sull'analisi dei fenomeni vulcanici.</p>
                         </div>
                     </div>
                 </div>
                 <div>
-                    <h3 class="text-xl font-bold text-slate-700 mb-4">Integrazione nell'Ecosistema</h3>
-                    <div class="flex flex-wrap items-center justify-center gap-8 p-4 bg-slate-50 rounded-lg">
-                        <div class="p-3 bg-slate-200 rounded-lg text-center">INGV-OE</div>
-                        <div class="p-3 bg-slate-200 rounded-lg text-center">Protezione Civile</div>
+                    <h3 class="text-xl font-bold text-slate-100 mb-4">Integrazione nell'Ecosistema</h3>
+                    <div class="flex flex-wrap items-center justify-center gap-8 p-4 bg-slate-800 rounded-lg">
+                        <div class="p-3 bg-slate-700 rounded-lg text-center">INGV-OE</div>
+                        <div class="p-3 bg-slate-700 rounded-lg text-center">Protezione Civile</div>
                         <div class="p-6 bg-sky-600 text-white rounded-full shadow-lg text-center font-bold">Progetto<br>ETNA</div>
-                        <div class="p-3 bg-slate-200 rounded-lg text-center">Università</div>
-                        <div class="p-3 bg-slate-200 rounded-lg text-center">Altre Reti</div>
+                        <div class="p-3 bg-slate-700 rounded-lg text-center">Università</div>
+                        <div class="p-3 bg-slate-700 rounded-lg text-center">Altre Reti</div>
                     </div>
                     <p class="text-center mt-4 text-sm text-slate-500">ETNA come hub per l'aggregazione e l'analisi di dati da diverse fonti istituzionali e di ricerca.</p>
                 </div>
             </div>
-        </div>
-
-        <div id="riflessioni" class="space-y-8">
-            <h2 class="text-3xl font-bold text-slate-800 border-b pb-4">Riflessioni & Potenziale Strategico</h2>
-            <p class="text-lg text-slate-600">Alla luce dell'analisi dell'ampio e specializzato ecosistema software dell'INGV, emerge una riflessione umile ma concreta sul ruolo che un progetto come ETNA può ricoprire. Non si propone come un'alternativa, ma come un **complemento agile e innovativo**, capace di esplorare nuove frontiere e fungere da ponte.</p>
-            <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 space-y-6">
-                <div class="flex items-start gap-4">
-                    <div class="flex-shrink-0 w-12 h-12 bg-sky-100 text-sky-600 rounded-lg flex items-center justify-center text-2xl">🌉</div>
-                    <div>
-                        <h3 class="font-bold text-slate-800">Cruscotto Unificato e Aggregatore</h3>
-                        <p class="text-slate-600">ETNA è il prototipo ideale per un'interfaccia che aggrega dati da fonti istituzionali diverse (sismicità da EtnaRCSC, deformazioni da dati SAR, citizen science da TefraNet) in un'unica vista integrata, rispondendo a un'esigenza di sintesi.</p>
-                    </div>
-                </div>
-                <div class="flex items-start gap-4">
-                    <div class="flex-shrink-0 w-12 h-12 bg-sky-100 text-sky-600 rounded-lg flex items-center justify-center text-2xl">🧪</div>
-                    <div>
-                        <h3 class="font-bold text-slate-800">Sandbox per l'Innovazione Rapida</h3>
-                        <p class="text-slate-600">Grazie al suo stack tecnologico leggero, ETNA funge da laboratorio per il rapid prototyping di tecnologie all'avanguardia (come l'uso di LLM per il reporting), validando concetti prima di una potenziale, e più complessa, integrazione istituzionale.</p>
-                    </div>
-                </div>
-                <div class="flex items-start gap-4">
-                    <div class="flex-shrink-0 w-12 h-12 bg-sky-100 text-sky-600 rounded-lg flex items-center justify-center text-2xl">🧬</div>
-                    <div>
-                        <h3 class="font-bold text-slate-800">Precursore di "VOLSTANCE"</h3>
-                        <p class="text-slate-600">La pipeline di elaborazione del progetto è di fatto un prototipo del motore necessario per creare un dataset vulcanologico su larga scala pronto per il Machine Learning (un "VOLSTANCE"), alimentando la prossima generazione di ricerca predittiva multimodale.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
+        </section>
         
-        <div id="tecnologie" class="space-y-8">
-             <h2 class="text-3xl font-bold text-slate-800 border-b pb-4">Stack Tecnologico</h2>
-             <p class="text-lg text-slate-600">Il progetto ETNA si basa su un insieme di tecnologie open-source moderne e consolidate. Questa sezione elenca gli strumenti e le librerie principali che costituiscono l'ossatura tecnica del sistema, dalla gestione dei dati al machine learning, fino al deployment.</p>
-            <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+        <!-- Sezione Riflessioni -->
+        <section id="riflessioni" class="pt-24 space-y-8">
+            <h2 class="text-3xl font-bold text-white border-b border-slate-700 pb-4">Riflessioni & Potenziale Strategico</h2>
+            <p class="text-lg text-slate-300">Alla luce dell'analisi dell'ampio e specializzato ecosistema software dell'INGV, emerge una riflessione umile ma concreta sul ruolo che un progetto come ETNA può ricoprire. Non si propone come un'alternativa, ma come un <strong>complemento agile e innovativo</strong>, capace di esplorare nuove frontiere e fungere da ponte.</p>
+            <div class="bg-slate-800/50 p-6 rounded-xl shadow-lg border border-slate-700 space-y-6">
+                <div class="flex items-start gap-4">
+                    <div class="flex-shrink-0 w-12 h-12 bg-sky-900/70 text-sky-400 rounded-lg flex items-center justify-center text-2xl">🌉</div>
+                    <div>
+                        <h3 class="font-bold text-slate-100">Cruscotto Unificato e Aggregatore</h3>
+                        <p class="text-slate-300">ETNA è il prototipo ideale per un'interfaccia che aggrega dati da fonti istituzionali diverse (sismicità da EtnaRCSC, deformazioni da dati SAR, citizen science da TefraNet) in un'unica vista integrata, rispondendo a un'esigenza di sintesi.</p>
+                    </div>
+                </div>
+                <div class="flex items-start gap-4">
+                    <div class="flex-shrink-0 w-12 h-12 bg-sky-900/70 text-sky-400 rounded-lg flex items-center justify-center text-2xl">🧪</div>
+                    <div>
+                        <h3 class="font-bold text-slate-100">Sandbox per l'Innovazione Rapida</h3>
+                        <p class="text-slate-300">Grazie al suo stack tecnologico leggero, ETNA funge da laboratorio per il rapid prototyping di tecnologie all'avanguardia (come l'uso di LLM per il reporting), validando concetti prima di una potenziale, e più complessa, integrazione istituzionale.</p>
+                    </div>
+                </div>
+                <div class="flex items-start gap-4">
+                    <div class="flex-shrink-0 w-12 h-12 bg-sky-900/70 text-sky-400 rounded-lg flex items-center justify-center text-2xl">🧬</div>
+                    <div>
+                        <h3 class="font-bold text-slate-100">Precursore di "VOLSTANCE"</h3>
+                        <p class="text-slate-300">La pipeline di elaborazione del progetto è di fatto un prototipo del motore necessario per creare un dataset vulcanologico su larga scala pronto per il Machine Learning (un "VOLSTANCE"), alimentando la prossima generazione di ricerca predittiva multimodale.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sezione Tecnologie -->
+        <section id="tecnologie" class="pt-24 space-y-8">
+             <h2 class="text-3xl font-bold text-white border-b border-slate-700 pb-4">Stack Tecnologico</h2>
+             <p class="text-lg text-slate-300">Il progetto si basa su un insieme di tecnologie open-source moderne. Questa sezione elenca gli strumenti principali che costituiscono l'ossatura tecnica del sistema.</p>
+            <div class="bg-slate-800/50 p-6 rounded-xl shadow-lg border border-slate-700">
                 <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6 text-center">
-                    <div class="p-4 rounded-lg bg-slate-50">
-                        <div class="text-4xl">🐍</div>
-                        <p class="font-medium mt-2 text-slate-700">Python 3</p>
-                    </div>
-                    <div class="p-4 rounded-lg bg-slate-50">
-                        <div class="text-4xl">📦</div>
-                        <p class="font-medium mt-2 text-slate-700">Obspy, Pandas</p>
-                    </div>
-                    <div class="p-4 rounded-lg bg-slate-50">
-                        <div class="text-4xl">🧠</div>
-                        <p class="font-medium mt-2 text-slate-700">PyTorch</p>
-                    </div>
-                    <div class="p-4 rounded-lg bg-slate-50">
-                        <div class="text-4xl">🐳</div>
-                        <p class="font-medium mt-2 text-slate-700">Docker</p>
-                    </div>
-                     <div class="p-4 rounded-lg bg-slate-50">
-                        <div class="text-4xl">🚀</div>
-                        <p class="font-medium mt-2 text-slate-700">FastAPI</p>
-                    </div>
-                    <div class="p-4 rounded-lg bg-slate-50">
-                        <div class="text-4xl">📊</div>
-                        <p class="font-medium mt-2 text-slate-700">Streamlit</p>
-                    </div>
-                    <div class="p-4 rounded-lg bg-slate-50">
-                        <div class="text-4xl">🤖</div>
-                        <p class="font-medium mt-2 text-slate-700">Ollama</p>
-                    </div>
-                    <div class="p-4 rounded-lg bg-slate-50">
-                        <div class="text-4xl">⚙️</div>
-                        <p class="font-medium mt-2 text-slate-700">GitHub Actions</p>
-                    </div>
+                    <div class="p-4 rounded-lg bg-slate-800"><div class="text-4xl">🐍</div><p class="font-medium mt-2 text-slate-300">Python 3</p></div>
+                    <div class="p-4 rounded-lg bg-slate-800"><div class="text-4xl">📦</div><p class="font-medium mt-2 text-slate-300">Obspy, Pandas</p></div>
+                    <div class="p-4 rounded-lg bg-slate-800"><div class="text-4xl">🧠</div><p class="font-medium mt-2 text-slate-300">PyTorch</p></div>
+                    <div class="p-4 rounded-lg bg-slate-800"><div class="text-4xl">🐳</div><p class="font-medium mt-2 text-slate-300">Docker</p></div>
+                    <div class="p-4 rounded-lg bg-slate-800"><div class="text-4xl">🚀</div><p class="font-medium mt-2 text-slate-300">FastAPI</p></div>
+                    <div class="p-4 rounded-lg bg-slate-800"><div class="text-4xl">📊</div><p class="font-medium mt-2 text-slate-300">Streamlit</p></div>
+                    <div class="p-4 rounded-lg bg-slate-800"><div class="text-4xl">🤖</div><p class="font-medium mt-2 text-slate-300">Ollama</p></div>
+                    <div class="p-4 rounded-lg bg-slate-800"><div class="text-4xl">⚙️</div><p class="font-medium mt-2 text-slate-300">GitHub Actions</p></div>
                 </div>
             </div>
-        </div>
+        </section>
 
-        <div id="funzionalita" class="space-y-8">
-            <h2 class="text-3xl font-bold text-slate-800 border-b pb-4">Funzionalità Chiave</h2>
-            <p class="text-lg text-slate-600">Le funzionalità del sistema ETNA sono progettate per coprire l'intero ciclo di vita del monitoraggio, dall'acquisizione dei dati alla loro interpretazione. Qui sono riassunte le capacità principali della piattaforma e il ruolo dell'assistente "ETNA GPT Expert".</p>
+        <!-- Sezione Funzionalità -->
+        <section id="funzionalita" class="pt-24 space-y-8">
+            <h2 class="text-3xl font-bold text-white border-b border-slate-700 pb-4">Funzionalità Chiave</h2>
+            <p class="text-lg text-slate-300">Le funzionalità del sistema coprono l'intero ciclo di vita del monitoraggio, dall'acquisizione dei dati alla loro interpretazione.</p>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                 <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
-                    <h3 class="font-bold text-sky-600 mb-2">Acquisizione Centralizzata</h3>
-                    <p class="text-sm text-slate-600">Aggrega dati sismici, infrasonici e di degassamento da diverse reti di monitoraggio in un unico punto.</p>
+                 <div class="bg-slate-800/50 p-6 rounded-xl shadow-lg border border-slate-700">
+                    <h3 class="font-bold text-sky-400 mb-2">Acquisizione Centralizzata</h3>
+                    <p class="text-sm text-slate-300">Aggrega dati sismici, infrasonici e di degassamento da diverse reti di monitoraggio in un unico punto.</p>
                 </div>
-                 <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
-                    <h3 class="font-bold text-sky-600 mb-2">Elaborazione Parametri</h3>
-                    <p class="text-sm text-slate-600">Calcola indicatori chiave come SSAM, RMS, polarizzazione e correlazione per quantificare l'attività vulcanica.</p>
+                 <div class="bg-slate-800/50 p-6 rounded-xl shadow-lg border border-slate-700">
+                    <h3 class="font-bold text-sky-400 mb-2">Elaborazione Parametri</h3>
+                    <p class="text-sm text-slate-300">Calcola indicatori chiave come SSAM, RMS, polarizzazione e correlazione per quantificare l'attività vulcanica.</p>
                 </div>
-                 <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
-                    <h3 class="font-bold text-sky-600 mb-2">Rilevamento Anomalie</h3>
-                    <p class="text-sm text-slate-600">Utilizza un Autoencoder Convoluzionale per identificare pattern anomali e potenzialmente precursori nei dati.</p>
+                 <div class="bg-slate-800/50 p-6 rounded-xl shadow-lg border border-slate-700">
+                    <h3 class="font-bold text-sky-400 mb-2">Rilevamento Anomalie</h3>
+                    <p class="text-sm text-slate-300">Utilizza un Autoencoder Convoluzionale per identificare pattern anomali e potenzialmente precursori nei dati.</p>
                 </div>
-                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
-                    <h3 class="font-bold text-sky-600 mb-2">Reporting Assistito da LLM</h3>
-                    <p class="text-sm text-slate-600">Impiega agenti software per generare bozze di report giornalieri, sintetizzando i dati in linguaggio naturale.</p>
+                <div class="bg-slate-800/50 p-6 rounded-xl shadow-lg border border-slate-700">
+                    <h3 class="font-bold text-sky-400 mb-2">Reporting Assistito da LLM</h3>
+                    <p class="text-sm text-slate-300">Impiega agenti software per generare bozze di report giornalieri, sintetizzando i dati in linguaggio naturale.</p>
                 </div>
-                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
-                    <h3 class="font-bold text-sky-600 mb-2">Dashboard Interattiva</h3>
-                    <p class="text-sm text-slate-600">Offre un'interfaccia web (Streamlit) per visualizzare grafici, mappe e report in modo intuitivo.</p>
+                <div class="bg-slate-800/50 p-6 rounded-xl shadow-lg border border-slate-700">
+                    <h3 class="font-bold text-sky-400 mb-2">Dashboard Interattiva</h3>
+                    <p class="text-sm text-slate-300">Offre un'interfaccia web (Streamlit) per visualizzare grafici, mappe e report in modo intuitivo.</p>
                 </div>
-                 <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
-                    <h3 class="font-bold text-sky-600 mb-2">ETNA GPT Expert</h3>
-                    <p class="text-sm text-slate-600">Un assistente virtuale (Custom GPT) per guidare gli utenti nell'analisi dei dati e nella comprensione del sistema.</p>
+                 <div class="bg-slate-800/50 p-6 rounded-xl shadow-lg border border-slate-700">
+                    <h3 class="font-bold text-sky-400 mb-2">ETNA GPT Expert</h3>
+                    <p class="text-sm text-slate-300">Un assistente virtuale (Custom GPT) per guidare gli utenti nell'analisi dei dati e nella comprensione del sistema.</p>
                 </div>
             </div>
-        </div>
+        </section>
 
-        <div id="autore" class="space-y-8">
-             <h2 class="text-3xl font-bold text-slate-800 border-b pb-4">Informazioni sull'Autore</h2>
-             <p class="text-lg text-slate-600">Il progetto ETNA nasce dall'esperienza e dall'interesse del suo sviluppatore. Questa sezione fornisce un breve profilo professionale e accademico di Giovanni Novelli e spiega come il suo background si collega alla concezione di questo sistema.</p>
-            <div class="bg-white p-8 rounded-xl shadow-sm border border-slate-200">
-                <h3 class="text-2xl font-bold text-slate-800">Giovanni Novelli</h3>
-                <p class="text-md text-sky-600 font-medium">Informatico, Ph.D.</p>
-                <div class="mt-4 space-y-4 text-slate-600 leading-relaxed">
+        <!-- Sezione Autore -->
+        <section id="autore" class="pt-24 space-y-8">
+             <h2 class="text-3xl font-bold text-white border-b border-slate-700 pb-4">Informazioni sull'Autore</h2>
+             <p class="text-lg text-slate-300">Il progetto ETNA nasce dall'esperienza e dall'interesse del suo sviluppatore, Giovanni Novelli.</p>
+            <div class="bg-slate-800/50 p-8 rounded-xl shadow-lg border border-slate-700">
+                <h3 class="text-2xl font-bold text-white">Giovanni Novelli</h3>
+                <p class="text-md text-sky-400 font-medium">Informatico, Ph.D.</p>
+                <div class="mt-4 space-y-4 text-slate-300 leading-relaxed">
                    <p>Il progetto ETNA è stato sviluppato da Giovanni Novelli, un informatico con esperienza sia nella pubblica amministrazione che nella ricerca. Nato a Catania, ha conseguito una Laurea in Scienze dell'Informazione e un Dottorato di Ricerca (Ph.D.) in Informatica presso l'Università di Catania. La sua carriera si è sviluppata in due ambiti: lavora come informatico presso il Ministero della Giustizia dal 1999 e la sua attività di ricerca si è concentrata su temi come Grid/Cloud Computing e sistemi multi-agente.</p>
                    <p>Il progetto ETNA cerca di unire le competenze maturate dall'autore. La sua architettura si basa su conoscenze di sistemi distribuiti, intelligenza artificiale e analisi dati. È un'applicazione tecnica che nasce dall'interesse di unire la ricerca con la soluzione di problemi concreti, applicando alcune tecnologie al monitoraggio del vulcano Etna.</p>
                 </div>
                 <div class="mt-6 flex flex-wrap gap-4">
-                    <a href="https://www.linkedin.com/in/gnovelli/" target="_blank" class="inline-flex items-center gap-2 bg-sky-500 text-white font-semibold px-4 py-2 rounded-lg hover:bg-sky-600 transition-colors">
+                    <a href="https://www.linkedin.com/in/gnovelli/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 bg-sky-600 text-white font-semibold px-4 py-2 rounded-lg hover:bg-sky-700 transition-colors">
                         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
                         LinkedIn
                     </a>
-                    <a href="https://www.novelli.me/" target="_blank" class="inline-flex items-center gap-2 bg-slate-600 text-white font-semibold px-4 py-2 rounded-lg hover:bg-slate-700 transition-colors">
+                    <a href="https://www.novelli.me/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 bg-slate-600 text-white font-semibold px-4 py-2 rounded-lg hover:bg-slate-700 transition-colors">
                         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1h-2v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
                         Sito Web
                     </a>
-                    <a href="https://t.me/voce777" target="_blank" class="inline-flex items-center gap-2 bg-blue-500 text-white font-semibold px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M9.78 18.65l.28-4.23c.07-1.03-.46-1.4-1.06-1.4h-2.97c-1.56 0-1.56-1.2-1.56-2.1v0c0-1.33.61-1.91 1.96-1.91h11.25c.84 0 1.52.28 1.52 1.44s-.68 1.44-1.52 1.44h-3.1c-1.03 0-1.06.3-1.02 1.4l.28 4.23c.03.41.42.58.89.58h.42c.92 0 1.96-.5 2.79-1.25l4.5-4.5c.94-.94.94-2.46 0-3.4l-4.5-4.5c-.83-.75-1.87-1.25-2.79-1.25h-.42c-.47 0-.86.17-.89.58l-.28 4.23c-.04 1.1.49 1.4 1.02 1.4h3.1c.84 0 1.52.28 1.52 1.44s-.68 1.44-1.52 1.44h-11.25c-1.35 0-1.96.58-1.96 1.91v0c0 .9.01 2.1 1.56 2.1h2.97c.6 0 1.13.37 1.06 1.4z"/></svg>
-                        Telegram
+                    <a href="https://t.me/voce777" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 bg-blue-500 text-white font-semibold px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"></path></svg>
+                        Contatta su Telegram
                     </a>
                 </div>
             </div>
-        </div>
+        </section>
 
-        <div id="contribuisci" class="space-y-8">
-            <h2 class="text-3xl font-bold text-slate-800 border-b pb-4">Come Contribuire</h2>
-            <p class="text-lg text-slate-600">ETNA è un progetto open source che accoglie contributi esterni. Se sei interessato a partecipare, segui le linee guida definite nei file <code class="text-sm font-bold text-sky-600">CONTRIBUTING.md</code> e <code class="text-sm font-bold text-sky-600">CODE_OF_CONDUCT.md</code>.</p>
-            <div class="bg-white p-8 rounded-xl shadow-sm border border-slate-200">
-                <h3 class="text-xl font-bold text-slate-800 mb-4">Flusso di Lavoro per i Contributi</h3>
-                <ul class="space-y-4 list-decimal list-inside text-slate-600">
+        <!-- Sezione Contribuisci -->
+        <section id="contribuisci" class="pt-24 space-y-8">
+            <h2 class="text-3xl font-bold text-white border-b border-slate-700 pb-4">Come Contribuire</h2>
+            <p class="text-lg text-slate-300">ETNA è un progetto open source che accoglie contributi esterni. Se sei interessato a partecipare, segui le linee guida definite nei file <code class="text-sm font-bold text-sky-400">CONTRIBUTING.md</code> e <code class="text-sm font-bold text-sky-400">CODE_OF_CONDUCT.md</code>.</p>
+            <div class="bg-slate-800/50 p-8 rounded-xl shadow-lg border border-slate-700">
+                <h3 class="text-xl font-bold text-white mb-4">Flusso di Lavoro per i Contributi</h3>
+                <ul class="space-y-4 list-decimal list-inside text-slate-300">
                     <li>
-                        <span class="font-semibold">Segnalazione di Bug e Proposte:</span> Aprire una "Issue" sul repository GitHub del progetto, fornendo una descrizione dettagliata.
+                        <span class="font-semibold text-white">Segnalazione di Bug e Proposte:</span> Aprire una "Issue" sul repository GitHub del progetto, fornendo una descrizione dettagliata.
                     </li>
                      <li>
-                        <span class="font-semibold">Sviluppo:</span> Effettuare un "fork" del repository, creare un nuovo "branch" per le modifiche e implementare le nuove funzionalità o le correzioni.
+                        <span class="font-semibold text-white">Sviluppo:</span> Effettuare un "fork" del repository, creare un nuovo "branch" per le modifiche e implementare le nuove funzionalità o le correzioni.
                     </li>
                     <li>
-                        <span class="font-semibold">Invio delle Modifiche:</span> Creare una "Pull Request" (PR) verso il branch `main` del repository originale, collegando la Issue di riferimento.
+                        <span class="font-semibold text-white">Invio delle Modifiche:</span> Creare una "Pull Request" (PR) verso il branch `main` del repository originale, collegando la Issue di riferimento.
                     </li>
                 </ul>
             </div>
-        </div>
+        </section>
+
+        <!-- Sezione Fonti Ufficiali -->
+        <section id="fonti" class="pt-24 text-center">
+             <h2 class="text-3xl font-bold text-center text-white">Risorse Ufficiali</h2>
+             <p class="text-lg text-slate-300 mt-4">Per dati validati e comunicazioni ufficiali, consultare sempre le fonti primarie.</p>
+            <div class="max-w-4xl mx-auto mt-6 flex flex-wrap justify-center gap-4">
+                <a href="https://www.ct.ingv.it/sezioniesterne/Comunicati/ComunicatiVulcanici.php" target="_blank" rel="noopener noreferrer" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-300">
+                    Comunicati Vulcanici INGV-OE
+                </a>
+                <a href="https://rischi.protezionecivile.gov.it/it/vulcanico/vulcani-italia/etna" target="_blank" rel="noopener noreferrer" class="bg-orange-600 hover:bg-orange-700 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-300">
+                    Dipartimento Protezione Civile - Rischio Vulcanico
+                </a>
+            </div>
+        </section>
+
     </main>
+
+    <footer class="text-center py-8 border-t border-slate-800 mt-16">
+        <p class="text-slate-500">Progetto Etna - Un esperimento di monitoraggio vulcanico.</p>
+    </footer>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const navLinks = document.querySelectorAll('.nav-link');
-            const sections = document.querySelectorAll('main > div');
+            const sections = document.querySelectorAll('main > section');
             
             const archComponents = document.querySelectorAll('.arch-component');
             const archTitle = document.getElementById('arch-title');
@@ -542,76 +524,20 @@ cd etna</code></pre>
             const umlContents = document.querySelectorAll('.uml-content');
 
             const archDetailsData = {
-                scheduler: {
-                    title: 'Orchestrazione: Scheduler',
-                    text: 'Il modulo `etna.scheduler` utilizza la libreria `schedule` per eseguire periodicamente e in sequenza tutti i task necessari: acquisizione dati, elaborazione, analisi e reporting. È il cuore pulsante che automatizza l\'intero flusso di lavoro.',
-                    showChart: false,
-                },
-                fetch: {
-                    title: 'Acquisizione: fetch',
-                    text: 'Questo modulo si interfaccia con i server FDSN (tramite `obspy`) per scaricare le forme d\'onda sismiche grezze secondo la configurazione delle stazioni definita in `stations.yaml`.',
-                    showChart: false,
-                },
-                infrasound: {
-                    title: 'Acquisizione: infrasound',
-                    text: 'Specializzato nell\'acquisizione e pre-elaborazione dei dati infrasonici, che sono cruciali per rilevare esplosioni e attività in superficie.',
-                    showChart: false,
-                },
-                 gas: {
-                    title: 'Acquisizione: gas',
-                    text: 'Modulo predisposto per l\'integrazione futura di dati sul degassamento vulcanico (es. CO₂, SO₂), fondamentali per il monitoraggio geochimico.',
-                    showChart: false,
-                },
-                ssam: {
-                    title: 'Elaborazione: ssam',
-                    text: 'Calcola la Seismic Spectral Amplitude Measurement (SSAM), un parametro che misura l\'energia del tremore vulcanico in diverse bande di frequenza. Il grafico di esempio mostra un tipico andamento SSAM.',
-                    showChart: true,
-                },
-                polarization: {
-                    title: 'Elaborazione: polarization',
-                    text: 'Esegue l\'analisi della polarizzazione delle onde sismiche per determinare la direzione di provenienza del segnale, aiutando a localizzare la sorgente del tremore.',
-                    showChart: false,
-                },
-                correlation: {
-                    title: 'Elaborazione: correlation',
-                    text: 'Effettua la correlazione incrociata dei segnali tra diverse stazioni per identificare segnali coerenti e migliorare il rapporto segnale/rumore.',
-                    showChart: false,
-                },
-                rms: {
-                    title: 'Elaborazione: rms_processing',
-                    text: 'Calcola il valore RMS (Root Mean Square) del segnale, fornendo una misura dell\'ampiezza complessiva del tremore nel tempo.',
-                    showChart: false,
-                },
-                autoencoder: {
-                    title: 'Modello: autoencoder',
-                    text: 'Implementa un Autoencoder Convoluzionale con PyTorch. Il modello viene addestrato su spettrogrammi per imparare a riconoscere i pattern "normali" e a segnalare deviazioni come anomalie.',
-                    showChart: false,
-                },
-                embeddings: {
-                    title: 'Analisi: embeddings',
-                    text: 'Questo modulo è progettato per generare "embeddings" (rappresentazioni vettoriali) dei dati sismici, utili per analisi di similarità e clustering.',
-                    showChart: false,
-                },
-                api_server: {
-                    title: 'Output: api_server',
-                    text: 'Un server API basato su FastAPI che espone i dati elaborati (SSAM, polarizzazione, etc.) in formato JSON per essere consumati da altre applicazioni, come la dashboard.',
-                    showChart: false,
-                },
-                streamlit_app: {
-                    title: 'Output: streamlit_app',
-                    text: 'L\'applicazione web interattiva (dashboard) che l\'utente finale utilizza per visualizzare i dati, le mappe e i report generati dal sistema.',
-                    showChart: false,
-                },
-                reporting_agent: {
-                    title: 'Output: reporting',
-                    text: 'Contiene la logica per l\'agente che interroga il modello LLM (Ollama) con i dati del giorno per generare un\'analisi sintetica in linguaggio naturale. Per dettagli, vedi AGENTS.md.',
-                    showChart: false,
-                },
-                alerts: {
-                    title: 'Output: alerts',
-                    text: 'Gestisce l\'invio di notifiche e report tramite l\'API di Telegram a canali o utenti predefiniti, assicurando una comunicazione tempestiva in caso di eventi rilevanti.',
-                    showChart: false,
-                },
+                scheduler: { title: 'Orchestrazione: Scheduler', text: 'Il modulo `etna.scheduler` utilizza la libreria `schedule` per eseguire periodicamente e in sequenza tutti i task necessari: acquisizione dati, elaborazione, analisi e reporting. È il cuore pulsante che automatizza l\'intero flusso di lavoro.', showChart: false },
+                fetch: { title: 'Acquisizione: fetch', text: 'Questo modulo si interfaccia con i server FDSN (tramite `obspy`) per scaricare le forme d\'onda sismiche grezze secondo la configurazione delle stazioni definita in `stations.yaml`.', showChart: false },
+                infrasound: { title: 'Acquisizione: infrasound', text: 'Specializzato nell\'acquisizione e pre-elaborazione dei dati infrasonici, che sono cruciali per rilevare esplosioni e attività in superficie.', showChart: false },
+                gas: { title: 'Acquisizione: gas', text: 'Modulo predisposto per l\'integrazione futura di dati sul degassamento vulcanico (es. CO₂, SO₂), fondamentali per il monitoraggio geochimico.', showChart: false },
+                ssam: { title: 'Elaborazione: ssam', text: 'Calcola la Seismic Spectral Amplitude Measurement (SSAM), un parametro che misura l\'energia del tremore vulcanico in diverse bande di frequenza. Il grafico di esempio mostra un tipico andamento SSAM.', showChart: true },
+                polarization: { title: 'Elaborazione: polarization', text: 'Esegue l\'analisi della polarizzazione delle onde sismiche per determinare la direzione di provenienza del segnale, aiutando a localizzare la sorgente del tremore.', showChart: false },
+                correlation: { title: 'Elaborazione: correlation', text: 'Effettua la correlazione incrociata dei segnali tra diverse stazioni per identificare segnali coerenti e migliorare il rapporto segnale/rumore.', showChart: false },
+                rms: { title: 'Elaborazione: rms_processing', text: 'Calcola il valore RMS (Root Mean Square) del segnale, fornendo una misura dell\'ampiezza complessiva del tremore nel tempo.', showChart: false },
+                autoencoder: { title: 'Modello: autoencoder', text: 'Implementa un Autoencoder Convoluzionale con PyTorch. Il modello viene addestrato su spettrogrammi per imparare a riconoscere i pattern "normali" e a segnalare deviazioni come anomalie.', showChart: false },
+                embeddings: { title: 'Analisi: embeddings', text: 'Questo modulo è progettato per generare "embeddings" (rappresentazioni vettoriali) dei dati sismici, utili per analisi di similarità e clustering.', showChart: false },
+                api_server: { title: 'Output: api_server', text: 'Un server API basato su FastAPI che espone i dati elaborati (SSAM, polarizzazione, etc.) in formato JSON per essere consumati da altre applicazioni, come la dashboard.', showChart: false },
+                streamlit_app: { title: 'Output: streamlit_app', text: 'L\'applicazione web interattiva (dashboard) che l\'utente finale utilizza per visualizzare i dati, le mappe e i report generati dal sistema.', showChart: false },
+                reporting_agent: { title: 'Output: reporting', text: 'Contiene la logica per l\'agente che interroga il modello LLM (Ollama) con i dati del giorno per generare un\'analisi sintetica in linguaggio naturale. Per dettagli, vedi AGENTS.md.', showChart: false },
+                alerts: { title: 'Output: alerts', text: 'Gestisce l\'invio di notifiche e report tramite l\'API di Telegram a canali o utenti predefiniti, assicurando una comunicazione tempestiva in caso di eventi rilevanti.', showChart: false },
             };
             
             function updateActiveSection() {
@@ -663,17 +589,12 @@ cd etna</code></pre>
                         responsive: true,
                         maintainAspectRatio: false,
                         scales: {
-                            y: {
-                                beginAtZero: true,
-                                title: { display: true, text: 'Valore Relativo' }
-                            }
+                            y: { beginAtZero: true, ticks: { color: '#94a3b8' }, grid: { color: '#334155' }, title: { display: true, text: 'Valore Relativo', color: '#94a3b8' } },
+                            x: { ticks: { color: '#94a3b8' }, grid: { color: '#334155' } }
                         },
                         plugins: {
                            legend: { display: false },
-                           tooltip: {
-                                mode: 'index',
-                                intersect: false,
-                           }
+                           tooltip: { mode: 'index', intersect: false }
                         }
                     }
                 });
@@ -706,23 +627,17 @@ cd etna</code></pre>
             umlTabs.forEach(tab => {
                 tab.addEventListener('click', () => {
                     const target = tab.dataset.target;
-
                     umlTabs.forEach(t => t.classList.remove('active'));
                     tab.classList.add('active');
-
                     umlContents.forEach(content => {
-                        if (content.id === target) {
-                            content.classList.add('active');
-                        } else {
-                            content.classList.remove('active');
-                        }
+                        content.classList.toggle('active', content.id === target);
                     });
                 });
             });
 
             window.addEventListener('scroll', updateActiveSection);
-            updateActiveSection(); // Initial call
-            chartWrapper.style.display = 'none'; // Hide chart initially
+            updateActiveSection();
+            chartWrapper.style.display = 'none';
         });
     </script>
 </body>
